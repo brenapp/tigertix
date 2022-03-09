@@ -14,16 +14,93 @@ const Home: NextPage = () => {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <header className="w-full h-24 bg-gradient-to-r from-orange to-blood rounded-b-md flex items-center justify-center md:justify-start">
-                <h1 className="text-4xl italic bold text-white text-opacity-90 md:pl-6">
+            <header className="w-full h-24 bg-gradient-to-r from-orange to-blood rounded-b-md flex items-center justify-start">
+                <h1 className="text-4xl italic bold text-white text-opacity-90 pl-6">
                     TigerTix
                 </h1>
+                <a
+                    href="/user"
+                    className="login ml-auto mr-4 flex text-white hover:bg-black hover:bg-opacity-20 p-3 px-6 rounded-sm"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6 mr-2"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                    </svg>
+                    <p className="text-white">Brendan McGuire</p>
+                </a>
             </header>
             <main className={"container mx-auto p-2 " + styles.main}>
-                <section className="venues ml-4 mt-4">
+                <section className="events ml-4 mt-4">
+                    <h1 className="text-2xl with-icon hover:text-orange">
+                        <Link href="/events">
+                            <a className="with-icon group">
+                                What's Happening
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6 group-hover:ml-3 ml-2 transition-all"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                    />
+                                </svg>
+                            </a>
+                        </Link>
+                    </h1>
+                    <div className="mt-4">
+                        <div className="event mt-4 flex items-center">
+                            <div className="h-16 w-16 bg-gray-300 rounded-md"></div>
+                            <div className="text ml-4">
+                                <h3 className="text-lg text-orange">
+                                    Trivia Night
+                                </h3>
+                                <h6 className="text-base">
+                                    Thu Mar 10 at 10 PM - Barnes Center
+                                </h6>
+                            </div>
+                        </div>
+                        <div className="event mt-4 flex items-center">
+                            <div className="h-16 w-16 bg-gray-300 rounded-md"></div>
+                            <div className="text ml-4">
+                                <h3 className="text-lg text-orange">
+                                    Basketball vs. NC State
+                                </h3>
+                                <h6 className="text-base">
+                                    Tue Mar 8 at 10 PM - Littlejohn Coliseum
+                                </h6>
+                            </div>
+                        </div>
+                        <div className="event mt-4 flex items-center">
+                            <div className="h-16 w-16 bg-gray-300 rounded-md"></div>
+                            <div className="text ml-4">
+                                <h3 className="text-lg text-orange">
+                                    Tigertown Throwdown Robotics Tournament
+                                </h3>
+                                <h6 className="text-base">
+                                    Sat Feb 5 at 8 AM - Hendrix Student Center
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section className="venues ml-4 mt-12">
                     <h1 className="text-2xl with-icon">
                         <Link href="/venues">
-                            <a className="with-icon group">
+                            <a className="with-icon group hover:text-orange">
                                 Venues
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -41,6 +118,32 @@ const Home: NextPage = () => {
                             </a>
                         </Link>
                     </h1>
+                    <div className="venues grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 mt-4">
+                        <div className="bg-gray-300 animate-pulse h-36 rounded-md grid content-center text-center text-lg">
+                            <h1>Venue Name</h1>
+                        </div>
+                        <div className="bg-gray-300 animate-pulse h-36 rounded-md grid content-center text-center text-lg">
+                            <h1>Venue Name</h1>
+                        </div>
+                        <div className="bg-gray-300 animate-pulse h-36 rounded-md grid content-center text-center text-lg">
+                            <h1>Venue Name</h1>
+                        </div>
+                        <div className="bg-gray-300 animate-pulse h-36 rounded-md grid content-center text-center text-lg">
+                            <h1>Venue Name</h1>
+                        </div>
+                        <div className="bg-gray-300 animate-pulse h-36 rounded-md grid content-center text-center text-lg">
+                            <h1>Venue Name</h1>
+                        </div>
+                        <div className="bg-gray-300 animate-pulse h-36 rounded-md grid content-center text-center text-lg">
+                            <h1>Venue Name</h1>
+                        </div>
+                        <div className="bg-gray-300 animate-pulse h-36 rounded-md grid content-center text-center text-lg">
+                            <h1>Venue Name</h1>
+                        </div>
+                        <div className="bg-gray-300 animate-pulse h-36 rounded-md grid content-center text-center text-lg">
+                            <h1>Venue Name</h1>
+                        </div>
+                    </div>
                 </section>
             </main>
         </div>
