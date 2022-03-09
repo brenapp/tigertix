@@ -44,7 +44,7 @@ const Home: NextPage = () => {
                     <h1 className="text-2xl with-icon hover:text-orange">
                         <Link href="/events">
                             <a className="with-icon group">
-                                What's Happening
+                                What&apos;s Happening
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     className="h-6 w-6 group-hover:ml-3 ml-2 transition-all"
