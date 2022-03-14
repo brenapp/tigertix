@@ -2,8 +2,22 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
-
+import { useUser } from '@auth0/nextjs-auth0';
 const Home: NextPage = () => {
+    const {user, error, isLoading} = useUser();
+    let displayName = null;
+    let apprLink = "";
+    
+    if (user) {
+        displayName = user.name;
+        apprLink = "api/auth/logout"
+    }
+
+    else {
+        displayName = 'Login'
+        apprLink = "api/auth/login"
+    }
+
     return (
         <div className="min-h-screen bg-gray-50 relative overflow-hidden">
             <Head>
@@ -18,8 +32,7 @@ const Home: NextPage = () => {
                 <h1 className="text-4xl italic bold text-white text-opacity-90 pl-6">
                     TigerTix
                 </h1>
-                <a
-                    href="/user"
+                <a href = {apprLink}
                     className="login ml-auto mr-4 flex text-white hover:bg-black hover:bg-opacity-20 p-3 px-6 rounded-sm"
                 >
                     <svg
@@ -36,7 +49,7 @@ const Home: NextPage = () => {
                             d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                     </svg>
-                    <p className="text-white">Brendan McGuire</p>
+                    <p className="text-white">{displayName}</p>
                 </a>
             </header>
             <main className={"container mx-auto p-2 " + styles.main}>

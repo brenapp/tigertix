@@ -1,10 +1,17 @@
 import "../styles/globals.css";
 import "../styles/index.css";
+import React from 'react';
+import { UserProvider } from '@auth0/nextjs-auth0';
 
 import type { AppProps } from "next/app";
 
 function MyApp({ Component, pageProps }: AppProps) {
-    return <Component {...pageProps} />;
+    return (
+        <UserProvider>
+            <Component {...pageProps} />
+        </UserProvider>
+    )
+    
 }
 
 export default MyApp;
