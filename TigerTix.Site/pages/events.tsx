@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { Container, Header } from "./components";
+import { Container, Header } from "../components";
 
 const EventPage: NextPage = () => {
     return (
