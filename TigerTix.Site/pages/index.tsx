@@ -5,6 +5,7 @@ import styles from "../styles/Home.module.css";
 import { Header, Container } from "./components";
 
 const Home: NextPage = () => {
+
     return (
         <Container>
             <Header title="Home" description="TigerTIX is a site to help find events on Clemson's campus!" />
