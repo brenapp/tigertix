@@ -9,8 +9,8 @@ const Home: NextPage = () => {
     return (
         <Container>
             <Header title="Home" description="TigerTIX is a site to help find events on Clemson's campus!" />
-            <main className={"container mx-auto p-2 " + styles.main}>
-                <section className="events ml-4 mt-4">
+            <main className={"container mx-auto md:p-2 " + styles.main}>
+                <section className="events mx-4 mt-4">
                     <h1 className="text-2xl with-icon hover:text-orange">
                         <Link href="/events">
                             <a className="with-icon group">
@@ -67,7 +67,7 @@ const Home: NextPage = () => {
                         </div>
                     </div>
                 </section>
-                <section className="venues ml-4 mt-12">
+                <section className="venues mx-4 mt-12">
                     <h1 className="text-2xl with-icon">
                         <Link href="/venues">
                             <a className="with-icon group hover:text-orange">
@@ -88,7 +88,7 @@ const Home: NextPage = () => {
                             </a>
                         </Link>
                     </h1>
-                    <div className="venues grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 mt-4">
+                    <div className="venues grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:gap-4 gap-y-4 mt-4 md:px-0">
                         <div className="bg-gray-300 animate-pulse h-36 rounded-md grid content-center text-center text-lg">
                             <h1>Venue Name</h1>
                         </div>
