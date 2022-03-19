@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Container, Header, Loading } from "../components";
+import { Button, Container, Header, Loading } from "../components";
 
 export interface Event {
     id: number;
@@ -127,7 +127,7 @@ const EventPage: NextPage = () => {
                             className="form-select w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange  focus:outline-none"
                         />
                     </label>
-                    <button className="bg-orange w-full p-2 mt-4 rounded-md text-white text-lg">Filter</button>
+                    <Button color="primary" onClick={() => {}} className="w-full">Filter</Button>
                 </section>
                 <section className="events flex-1">
                     <Loading render={EventsList} promise={data} />
