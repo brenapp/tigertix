@@ -24,6 +24,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Add CORS
+app.Use(async (context, next) => {
+    context.Response.OnStarting(() => {
+        context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+        return Task.FromResult(0);
+    });
+
+    await next();
+});
+
 app.MapGet("/list", () => Enumerable.Range(1, 5).Select(index => {
 
         ContentBlock[] blocks = {
