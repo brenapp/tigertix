@@ -26,7 +26,7 @@ app.UseHttpsRedirection();
 
 app.MapGet("/list", () =>
 {
-    var songs = Enumerable.Range(1, 5).Select(index =>
+    var events = Enumerable.Range(1, 5).Select(index =>
     {
 
         ContentBlock[] blocks = {
@@ -41,7 +41,7 @@ app.MapGet("/list", () =>
 
     }).ToArray();
 
-    return forecast;
+    return events;
 })
 .WithName("GetEventsList");
 
