@@ -97,14 +97,14 @@ const EventPage: NextPage = () => {
                         <input
                             placeholder="Event Name..."
                             type="text"
-                            className="form-select w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange  focus:outline-none"
+                            className="form-select w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
                         />
                     </label>
                     <label className="font-bold mb-4 w-full">
                         <p>Venue</p>
                         <select
                             placeholder="Venue"
-                            className="form-select w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange  focus:outline-none"
+                            className="form-select w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
                         >
                             <option value="hsc">Hendrix Student Center</option>
                             <option value="hsc">Barnes Center</option>
@@ -116,7 +116,7 @@ const EventPage: NextPage = () => {
                         <input
                             placeholder="Event Name..."
                             type="date"
-                            className="form-select w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange  focus:outline-none"
+                            className="form-select w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
                         />
                     </label>
                     <label className="font-bold mb-4 w-full">
@@ -124,7 +124,7 @@ const EventPage: NextPage = () => {
                         <input
                             placeholder="Event Name..."
                             type="date"
-                            className="form-select w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange  focus:outline-none"
+                            className="form-select w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
                         />
                     </label>
                     <Button color="primary" onClick={() => {}} className="w-full">Filter</Button>
