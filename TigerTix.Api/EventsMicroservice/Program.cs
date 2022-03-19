@@ -24,10 +24,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/list", () =>
-{
-    var events = Enumerable.Range(1, 5).Select(index =>
-    {
+app.MapGet("/list", () => Enumerable.Range(1, 5).Select(index => {
 
         ContentBlock[] blocks = {
             new ContentBlock("Health & Safety Policy", "Be safe out there!"),
@@ -39,11 +36,8 @@ app.MapGet("/list", () =>
                                 "https://picsum.photos/400/400", "https://picsum.photos/1500/500", "Barnes Center",
                                 383838, "Cherry Rd, Clemson, SC 29631", blocks);
 
-    }).ToArray();
-
-    return events;
-})
-.WithName("GetEventsList");
+    }).ToArray()
+).WithName("GetEventsList");
 
 app.MapGet("/", () => "Go to /list for list of events");
 
