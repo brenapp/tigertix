@@ -10,6 +10,12 @@ if (process.env.VERCEL_ENV === "production") {
     process.env.AUTH0_BASE_URL = "https://tigertix.bren.app";
 };
 
+// Allow self signed certificates IN DEVELOPMENT
+if (process.env.NODE_ENV === "development") {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+};
+
+
 import type { AppProps } from "next/app";
 
 function MyApp({ Component, pageProps }: AppProps) {
