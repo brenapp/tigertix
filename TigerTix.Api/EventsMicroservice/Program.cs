@@ -34,7 +34,7 @@ app.Use(async (context, next) => {
     await next();
 });
 
-app.MapGet("/list", () => Enumerable.Range(1, 5).Select(index => {
+app.MapGet("/list", (int n) => Enumerable.Range(1, n).Select(index => {
 
         ContentBlock[] blocks = {
             new ContentBlock("Health & Safety Policy", "Be safe out there!"),
