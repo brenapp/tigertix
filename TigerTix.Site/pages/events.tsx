@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { Button, Container, Header, Loading } from "../components";
 
 export interface Event {
@@ -25,7 +26,6 @@ export interface Event {
 
 const EventsList: React.FC<{ data: Event[] }> = ({ data }) => {
     const render = (event: Event) => {
-
         const start = new Date(event.start).toLocaleDateString();
 
         return (
@@ -76,13 +76,23 @@ const EventsList: React.FC<{ data: Event[] }> = ({ data }) => {
 };
 
 const EventsListError: React.FC = () => {
-    return <p>Something went wrong!</p>;
+    return (
+        <div className="p-6">
+            <h1 className="text-lg">Could not load events list!</h1>
+        </div>
+    );
 };
 
-const EventPage: NextPage = () => {
-    const data = fetch("https://localhost:7291/list").then(
+async function getEvents(n: number) {
+    return fetch(`https://localhost:7291/list?n=${n}`).then(
         (r) => r.json() as Promise<Event[]>
     );
+};
+
+
+const EventPage: NextPage<{ events: Event[] }> = ({ events }) => {
+    const [data, setData] = useState(Promise.resolve(events));
+    const [num, setNum] = useState(5);
 
     return (
         <Container>
@@ -92,7 +102,7 @@ const EventPage: NextPage = () => {
             />
             <main className="p-4 flex flex-col lg:flex-row">
                 <section className="filter flex flex-col lg:items-center py-4 lg:py-2 px-4 rounded-lg bg-white border-2">
-                <label className="font-bold mb-4 w-full">
+                    <label className="font-bold mb-4 w-full">
                         <p>Event Name</p>
                         <input
                             placeholder="Event Name..."
@@ -127,7 +137,23 @@ const EventPage: NextPage = () => {
                             className="form-select w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
                         />
                     </label>
-                    <Button color="primary" onClick={() => {}} className="w-full">Filter</Button>
+                    <label className="font-bold mb-4 w-full">
+                        <p>Number of Events</p>
+                        <input
+                            placeholder="Number"
+                            type="number"
+                            value={num}
+                            onChange={(e) => setNum(parseInt(e.target.value))}
+                            className="form-select w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
+                        />
+                    </label>
+                    <Button
+                        color="primary"
+                        onClick={() => setData(getEvents(num))}
+                        className="w-full"
+                    >
+                        Filter
+                    </Button>
                 </section>
                 <section className="events flex-1">
                     <Loading render={EventsList} promise={data} />
@@ -138,3 +164,10 @@ const EventPage: NextPage = () => {
 };
 
 export default EventPage;
+
+export async function getServerSideProps() {
+
+    const events = await getEvents(5);
+
+    return { props: { events } }
+};
