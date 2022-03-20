@@ -1,14 +1,17 @@
 import type { NextPage } from "next";
-import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
-import { Header, Container } from "../components";
+import { Header, Container, EventPreview } from "../components";
+import { Event, getEvents } from "../services/events";
 
-const Home: NextPage = () => {
-
+const Home: NextPage<{ events: Event[] }> = ({ events }) => {
     return (
         <Container>
-            <Header title="Home" description="TigerTIX is a site to help find events on Clemson's campus!" />
+            <Header
+                title="Home"
+                description="TigerTIX is a site to help find events on Clemson's campus!"
+            />
             <main className={"container mx-auto md:p-2 " + styles.main}>
                 <section className="events mx-4 mt-4">
                     <h1 className="text-2xl with-icon hover:text-orange">
@@ -32,39 +35,7 @@ const Home: NextPage = () => {
                         </Link>
                     </h1>
                     <div className="mt-4">
-                        <div className="event mt-4 flex items-center">
-                            <div className="h-16 w-16 bg-gray-300 rounded-md"></div>
-                            <div className="text ml-4">
-                                <h3 className="text-lg text-orange">
-                                    Trivia Night
-                                </h3>
-                                <h6 className="text-base">
-                                    Thu Mar 10 at 10 PM - Barnes Center
-                                </h6>
-                            </div>
-                        </div>
-                        <div className="event mt-4 flex items-center">
-                            <div className="h-16 w-16 bg-gray-300 rounded-md"></div>
-                            <div className="text ml-4">
-                                <h3 className="text-lg text-orange">
-                                    Basketball vs. NC State
-                                </h3>
-                                <h6 className="text-base">
-                                    Tue Mar 8 at 10 PM - Littlejohn Coliseum
-                                </h6>
-                            </div>
-                        </div>
-                        <div className="event mt-4 flex items-center">
-                            <div className="h-16 w-16 bg-gray-300 rounded-md"></div>
-                            <div className="text ml-4">
-                                <h3 className="text-lg text-orange">
-                                    Tigertown Throwdown Robotics Tournament
-                                </h3>
-                                <h6 className="text-base">
-                                    Sat Feb 5 at 8 AM - Hendrix Student Center
-                                </h6>
-                            </div>
-                        </div>
+                        {events.map((event) => <EventPreview event={event} className="bg-inherit border-0 lg:ml-0" />)}
                     </div>
                 </section>
                 <section className="venues mx-4 mt-12">
@@ -121,3 +92,9 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export async function getServerSideProps() {
+    const events = await getEvents(3);
+
+    return { props: { events } };
+}
