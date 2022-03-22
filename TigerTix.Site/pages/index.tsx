@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import { Header, Container, EventPreview } from "../components";
@@ -35,7 +34,7 @@ const Home: NextPage<{ events: Event[] }> = ({ events }) => {
                         </Link>
                     </h1>
                     <div className="mt-4">
-                        {events.map((event) => <EventPreview event={event} className="bg-inherit border-0 lg:ml-0" />)}
+                        {events.map((event) => <EventPreview key={event.id} event={event} className="bg-inherit border-0 lg:ml-0" />)}
                     </div>
                 </section>
                 <section className="venues mx-4 mt-12">

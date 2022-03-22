@@ -1,12 +1,10 @@
 import type { NextPage } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 import { Button, Container, Header, Loading, EventPreview } from "../components";
 import { getEvents, Event } from "../services/events";
 
 const EventsList: React.FC<{ data: Event[] }> = ({ data }) => {
-    return <>{data.map(event => <EventPreview event={event} />)}</>;
+    return <>{data.map(event => <EventPreview key={event.id} event={event} />)}</>;
 };
 
 const EventsListError: React.FC = () => {
