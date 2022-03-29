@@ -20,7 +20,12 @@ export interface Event {
 }
 
 export async function getEvents(n: number) {
-    return fetch(`https://localhost:7291/list?n=${n}`).then(
-        (r) => r.json() as Promise<Event[]>
-    );
+    try {
+        return fetch(`https://localhost:7291/list?n=${n}`).then(
+            (r) => r.json() as Promise<Event[]>
+        );
+    } catch (e) {
+        console.error(e);
+        return [];
+    }
 };
