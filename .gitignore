@@ -15,10 +15,10 @@ TigerTix.Site/.next/
 # production
 /build
 
+
 # misc
 .DS_Store
 *.pem
-public
 
 # debug
 npm-debug.log*
