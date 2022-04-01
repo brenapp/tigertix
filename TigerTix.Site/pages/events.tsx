@@ -75,7 +75,7 @@ const EventPage: NextPage<{ events: Event[] }> = ({ events }) => {
                     <Button
                         color="primary"
                         onClick={() => setData(getEvents(num))}
-                        className="w-full"
+                        className="w-full text-center p-2"
                     >
                         Filter
                     </Button>

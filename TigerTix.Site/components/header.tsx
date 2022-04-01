@@ -7,6 +7,8 @@ export interface HeaderProps {
     title: string;
     description: string;
     children?: ReactNode;
+    background?: boolean;
+    className?: string;
 }
 
 const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
@@ -116,14 +118,15 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
         );
     };
 
+    const background = props.background !== false ? "bg-gradient-to-r from-orange to-blood" : "";
+
     return (
         <>
             <Head>
                 <title>{props.title} | TigerTix</title>
                 <meta name="description" content={props.description} />
-                <link rel="icon" href="/favicon.ico" />
             </Head>
-            <header className="w-full h-24 bg-gradient-to-r from-orange to-blood rounded-b-md flex items-center justify-start">
+            <header className={`w-full h-24 ${background} rounded-b-md flex items-center justify-start` + props.className}>
                 <h1 className="text-4xl italic bold text-white text-opacity-90 pl-6">
                     TigerTix
                 </h1>
