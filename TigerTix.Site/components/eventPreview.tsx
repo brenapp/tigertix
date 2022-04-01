@@ -17,7 +17,7 @@ const EventPreview: React.FC<{ event: Event, className?: string }> = ({ event, c
                 />
             </div>
             <div>
-                <Link href="/events">
+                <Link href={`/events/${event.id}`}>
                     <a className="flex items-center group text-orange hover:text-blood">
                         {event.title}
                         <svg
