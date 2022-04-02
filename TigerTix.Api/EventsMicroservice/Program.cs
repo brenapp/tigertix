@@ -43,7 +43,7 @@ app.MapGet("/list", (int n) => Enumerable.Range(1, n).Select(index => {
 
         return new Event(37474, "The Scrum Kings' Karaoke Night", DateTime.Now, DateTime.Now,
                                 100, 100, 5.00, "The Scrum Kings perform several songs by Billie Eilish.",
-                                "https://picsum.photos/1500/500", "https://picsum.photos/400/400", "Barnes Center",
+                                "https://i.picsum.photos/id/649/1500/500.jpg?hmac=SI_WcYv1QQbcJaD_8LkBfgutxK2nWgZwnM2g9WSTkhk", "https://picsum.photos/400/400", "Barnes Center",
                                 383838, "Cherry Rd, Clemson, SC 29631", blocks);
 
     }).ToArray()
