@@ -126,7 +126,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
                 <title>{props.title} | TigerTix</title>
                 <meta name="description" content={props.description} />
             </Head>
-            <header className={`w-full h-24 ${background} rounded-b-md flex items-center justify-start` + props.className}>
+            <header className={`w-full h-24 ${background} rounded-b-md flex items-center justify-start ` + props.className}>
                 <h1 className="text-4xl italic bold text-white text-opacity-90 pl-6">
                     TigerTix
                 </h1>
