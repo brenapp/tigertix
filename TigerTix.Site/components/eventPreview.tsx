@@ -7,7 +7,7 @@ const EventPreview: React.FC<{ event: Event, className?: string }> = ({ event, c
     const start = new Date(event.start).toLocaleDateString();
 
     return (
-        <div className={"my-4 last:mb-0 p-4 lg:mt-0 lg:ml-3 pl-0 flex items-center h-28 bg-white rounded-md border-2 " + className}>
+        <div className={"my-4 last:mb-0 p-4 lg:mt-0 lg:ml-3 pl-0 flex items-center md:h-28 h-36 bg-white rounded-md border-2 " + className}>
             <div className="h-full aspect-square ml-4 mr-6">
                 <Image
                     src={event.image_thumbnail}
