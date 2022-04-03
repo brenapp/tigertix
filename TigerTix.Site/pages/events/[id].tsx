@@ -1,25 +1,12 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Image from "next/image";
 import { useState } from "react";
-import {
-    Button,
-    Container,
-    Header,
-    Loading,
-    EventPreview,
-} from "../../components";
+import { Button, Container, Header } from "../../components";
 import { getEvents, Event } from "../../services/events";
-
-const EventsListError: React.FC = () => {
-    return (
-        <div className="p-6">
-            <h1 className="text-lg">Could not load events list!</h1>
-        </div>
-    );
-};
 
 const EventPage: NextPage<{ event: Event }> = ({ event }) => {
     const dateString = new Date(event.start).toLocaleString();
+    const [tab, setTab] = useState<number>(0);
 
     return (
         <Container>
@@ -30,11 +17,13 @@ const EventPage: NextPage<{ event: Event }> = ({ event }) => {
             />
             <main className="md:px-4 ">
                 <section className="pt-4 grid lg:grid-cols-6 lg:gap-4 grid-cols-1">
-                    <section className="image relative mx-auto lg:col-span-4 w-full h-full rounded-md" style={{
-                        backgroundImage: `url(${event.image_thumbnail})`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                    }}>
+                    <section className="image relative mx-auto lg:col-span-4 w-full h-full rounded-md">
+                        <Image
+                            src={event.image_hero}
+                            height={500}
+                            width={1500}
+                            className="md:rounded-md"
+                        />
                         <nav className="quick-actions absolute top-4 right-4 bg-white rounded-md shadow-lg">
                             <Button
                                 color="none"
@@ -47,11 +36,11 @@ const EventPage: NextPage<{ event: Event }> = ({ event }) => {
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
-                                    stroke-width="2"
+                                    strokeWidth="2"
                                 >
                                     <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
                                         d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
                                     />
                                 </svg>
@@ -164,14 +153,33 @@ const EventPage: NextPage<{ event: Event }> = ({ event }) => {
                         </div>
                     </section>
                 </section>
-                <section>
-                    <nav>
+                <section className="grid md:grid-cols-6">
+                    <nav className="flex md:flex-col mx-2 md:ml-0 md:mt-2 col-span-1 bg-white p-2 rounded-md border-2 border-b-0 md:border-b-2 rounded-b-none md:rounded-b-md">
                         {event.blocks
                             .map((e) => e.title)
-                            .map((e) => (
-                                <p>{e}</p>
+                            .map((e, i) => (
+                                <a
+                                    key={i}
+                                    href="#"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setTab(i);
+                                    }}
+                                    className={
+                                        "p-2 px-4 border-2 mx-1 my-1 rounded-md cursor-pointer " +
+                                        (tab == i
+                                            ? "border-orange text-orange"
+                                            : "")
+                                    }
+                                >
+                                    {e}
+                                </a>
                             ))}
                     </nav>
+                    <section className="lg:col-span-5 bg-white md:mt-2 mt-0 border-2 rounded-md md:rounded-t-md rounded-t-none p-4 m-2">
+                        <h1 className="text-lg">{event.blocks[tab].title}</h1>
+                        <p>{event.blocks[tab].description}</p>
+                    </section>
                 </section>
             </main>
         </Container>
@@ -180,10 +188,14 @@ const EventPage: NextPage<{ event: Event }> = ({ event }) => {
 
 export default EventPage;
 
-export async function getServerSideProps() {
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
     // TODO: Get events from the database
     const events = await getEvents(1);
     const event = events[0];
+
+    if (events.length < 1) {
+        return { redirect: { destination: "/events", permanent: false } }
+    }
 
     return { props: { event } };
 }
