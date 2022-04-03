@@ -74,8 +74,8 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
                         tabIndex={1}
                     >
                         <div className="py-1" role="none">
-                            {/* <a
-                                href="#"
+                            { <a
+                                href="/user_info_update"
                                 className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900"
                                 role="menuitem"
                                 tabIndex={-1}
@@ -83,24 +83,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
                             >
                                 Account settings
                             </a>
-                            <a
-                                href="#"
-                                className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900"
-                                role="menuitem"
-                                tabIndex={-1}
-                                id="menu-item-1"
-                            >
-                                Support
-                            </a>
-                            <a
-                                href="#"
-                                className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900"
-                                role="menuitem"
-                                tabIndex={-1}
-                                id="menu-item-2"
-                            >
-                                License
-                            </a> */}
+                             }
                             <Link href={"/api/auth/logout"}>
                                 <a
                                     className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900"

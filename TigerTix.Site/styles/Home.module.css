@@ -4,3 +4,52 @@
     display: flex;
     flex-direction: column;
 }
+
+.user_info_page_title {
+    margin-top: 1.5%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 150%;
+}
+
+.user_info_titles {
+    margin-left: 1%;
+    font-weight: bold;
+    margin-top: 1%;
+}
+
+.user_info_contents {
+    font-weight: normal;
+    position: absolute;
+    left: 7.5%;
+}
+
+.change_account_info_option {
+    margin-top: 1.5%;
+    font-weight: bold;
+    margin-left: 1%;
+}
+
+.user_info_input_box {
+    position: absolute;
+    left: 7.5%;
+    font-size: 100%;
+    border-color: black;
+    border-width: thin;
+    padding-left: .5%;
+    padding-right: .5%;
+
+}
+
+.user_info_submit {
+    margin-left: 1%;
+    font-weight: bold;
+    margin-top: 1%;
+    border-color: black;
+    border-width: medium;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+
+
