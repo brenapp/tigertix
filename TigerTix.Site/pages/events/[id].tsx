@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Image from "next/image";
 import { useState } from "react";
 import { Button, Container, Header } from "../../components";
@@ -188,7 +188,7 @@ const EventPage: NextPage<{ event: Event }> = ({ event }) => {
 
 export default EventPage;
 
-export async function getServerSideProps({ res }) {
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
     // TODO: Get events from the database
     const events = await getEvents(1);
     const event = events[0];
