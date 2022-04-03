@@ -42,30 +42,6 @@ function App({ Component, pageProps }: AppProps) {
                 />
                 <link rel="manifest" href="/manifest.json" />
                 <link rel="shortcut icon" href="/favicon.ico" />
-    
-                <meta name="twitter:card" content="summary" />
-                <meta name="twitter:url" content="https://tigertix.bren.app" />
-                <meta name="twitter:title" content="PWA App" />
-                <meta
-                    name="twitter:description"
-                    content="Connecting you to the best events on Clemson's Campus!"
-                />
-                <meta
-                    name="twitter:image"
-                    content="https://tigertix.bren.app/icons/icon-192x192.png"
-                />
-                <meta property="og:type" content="website" />
-                <meta property="og:title" content="PWA App" />
-                <meta
-                    property="og:description"
-                    content="Connecting you to the best events on Clemson's Campus!"
-                />
-                <meta property="og:site_name" content="TigerTix" />
-                <meta property="og:url" content="https://tigertix.bren.app" />
-                <meta
-                    property="og:image"
-                    content="https://tigertix.bren.app/icons/icon-192x192x.png"
-                />
             </Head>
             <UserProvider>
                 <Component {...pageProps} />
