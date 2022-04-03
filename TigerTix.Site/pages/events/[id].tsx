@@ -178,9 +178,7 @@ const EventPage: NextPage<{ event: Event }> = ({ event }) => {
                     </nav>
                     <section className="lg:col-span-5 bg-white md:mt-2 mt-0 border-2 rounded-md md:rounded-t-md rounded-t-none p-4 m-2">
                         <h1 className="text-lg">{event.blocks[tab].title}</h1>
-                        <p>
-                            {event.blocks[tab].description}
-                        </p>
+                        <p>{event.blocks[tab].description}</p>
                     </section>
                 </section>
             </main>
@@ -190,10 +188,14 @@ const EventPage: NextPage<{ event: Event }> = ({ event }) => {
 
 export default EventPage;
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ res }) {
     // TODO: Get events from the database
     const events = await getEvents(1);
     const event = events[0];
+
+    if (events.length < 1) {
+        return { redirect: { destination: "/events", permanent: false } }
+    }
 
     return { props: { event } };
 }
