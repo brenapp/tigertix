@@ -74,16 +74,18 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
                         tabIndex={1}
                     >
                         <div className="py-1" role="none">
-                            { <a
-                                href="/user_info_update"
-                                className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900"
-                                role="menuitem"
-                                tabIndex={-1}
-                                id="menu-item-0"
-                            >
-                                Account settings
-                            </a>
-                             }
+                            {
+                                <Link href="/profile">
+                                    <a
+                                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900"
+                                        role="menuitem"
+                                        tabIndex={-1}
+                                        id="menu-item-3"
+                                    >
+                                        Account settings
+                                    </a>
+                                </Link>
+                            }
                             <Link href={"/api/auth/logout"}>
                                 <a
                                     className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900"
@@ -101,7 +103,10 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
         );
     };
 
-    const background = props.background !== false ? "bg-gradient-to-r from-orange to-blood" : "";
+    const background =
+        props.background !== false
+            ? "bg-gradient-to-r from-orange to-blood"
+            : "";
 
     return (
         <>
@@ -110,21 +115,18 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
                 <meta name="description" content={props.description} />
                 <meta name="twitter:card" content="summary" />
                 <meta name="twitter:url" content="https://tigertix.bren.app" />
-                <meta name="twitter:title" content={props.title + " | TigerTix"} />
                 <meta
-                    name="twitter:description"
-                    content={props.description}
+                    name="twitter:title"
+                    content={props.title + " | TigerTix"}
                 />
+                <meta name="twitter:description" content={props.description} />
                 <meta
                     name="twitter:image"
                     content="https://tigertix.bren.app/icons/icon-192x192.png"
                 />
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="TigerTix" />
-                <meta
-                    property="og:description"
-                    content={props.description}
-                />
+                <meta property="og:description" content={props.description} />
                 <meta property="og:site_name" content="TigerTix" />
                 <meta property="og:url" content="https://tigertix.bren.app" />
                 <meta
@@ -133,7 +135,12 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <header className={`w-full h-24 ${background} rounded-b-md flex items-center justify-start ` + props.className}>
+            <header
+                className={
+                    `w-full h-24 ${background} rounded-b-md flex items-center justify-start ` +
+                    props.className
+                }
+            >
                 <h1 className="text-4xl italic bold text-white text-opacity-90 pl-6">
                     TigerTix
                 </h1>
