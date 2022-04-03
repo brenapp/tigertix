@@ -1,30 +1,53 @@
 import "../styles/globals.css";
 import "../styles/index.css";
-import React from 'react';
-import { UserProvider } from '@auth0/nextjs-auth0';
+import React from "react";
+import { UserProvider } from "@auth0/nextjs-auth0";
+import type { AppProps } from "next/app";
+import Head from "next/head";
 
 // Overwrite base URL for Auth0 with Vercel URL if present (for deployed and preview branches)
 // See https://github.com/auth0/nextjs-auth0/issues/383#issuecomment-1026071966
-process.env.AUTH0_BASE_URL = process.env.AUTH0_BASE_URL || process.env.VERCEL_URL;
+process.env.AUTH0_BASE_URL =
+    process.env.AUTH0_BASE_URL || process.env.VERCEL_URL;
 if (process.env.VERCEL_ENV === "production") {
     process.env.AUTH0_BASE_URL = "https://tigertix.bren.app";
-};
-
-// Allow self signed certificates IN DEVELOPMENT
-if (process.env.NODE_ENV === "development") {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-};
-
-
-import type { AppProps } from "next/app";
-
-function MyApp({ Component, pageProps }: AppProps) {
-    return (
-        <UserProvider>
-            <Component {...pageProps} />
-        </UserProvider>
-    )
-    
 }
 
-export default MyApp;
+function App({ Component, pageProps }: AppProps) {
+    return (
+        <>
+            <Head>
+                <meta name="application-name" content="TigerTix" />
+                <meta name="apple-mobile-web-app-capable" content="yes" />
+                <meta
+                    name="apple-mobile-web-app-status-bar-style"
+                    content="default"
+                />
+                <meta name="apple-mobile-web-app-title" content="TigerTix" />
+                <meta name="description" content="Connecting you to the best events on Clemson's Campus!"/>
+                <meta name="format-detection" content="telephone=no" />
+                <meta name="mobile-web-app-capable" content="yes" />
+                <meta name="theme-color" content="#E29358" />
+                <link
+                    rel="icon"
+                    type="image/png"
+                    sizes="32x32"
+                    href="/icons/icon-32x32.png"
+                />
+                <link
+                    rel="icon"
+                    type="image/png"
+                    sizes="16x16"
+                    href="/icons/icon-16x16.png"
+                />
+                <link rel="manifest" href="/manifest.json" />
+                <link rel="shortcut icon" href="/favicon.ico" />
+            </Head>
+            <UserProvider>
+                <Component {...pageProps} />
+            </UserProvider>
+        </>
+    );
+}
+
+export default App;

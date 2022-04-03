@@ -125,6 +125,30 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
             <Head>
                 <title>{props.title} | TigerTix</title>
                 <meta name="description" content={props.description} />
+                <meta name="twitter:card" content="summary" />
+                <meta name="twitter:url" content="https://tigertix.bren.app" />
+                <meta name="twitter:title" content={props.title + " | TigerTix"} />
+                <meta
+                    name="twitter:description"
+                    content={props.description}
+                />
+                <meta
+                    name="twitter:image"
+                    content="https://tigertix.bren.app/icons/icon-192x192.png"
+                />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="TigerTix" />
+                <meta
+                    property="og:description"
+                    content={props.description}
+                />
+                <meta property="og:site_name" content="TigerTix" />
+                <meta property="og:url" content="https://tigertix.bren.app" />
+                <meta
+                    property="og:image"
+                    content="https://tigertix.bren.app/icons/icon-192x192x.png"
+                />
+                <link rel="icon" href="/favicon.ico" />
             </Head>
             <header className={`w-full h-24 ${background} rounded-b-md flex items-center justify-start ` + props.className}>
                 <h1 className="text-4xl italic bold text-white text-opacity-90 pl-6">
