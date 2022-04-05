@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegistrationMicroservice", "RegistrationMicroservice\RegistrationMicroservice.csproj", "{1CABD9A0-534E-4C44-8D6F-37A34769370D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventsMicroservice", "EventsMicroservice\EventsMicroservice.csproj", "{6EE8A99B-6253-4A25-866F-B6855AAB5E07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TigerTix.Api.Data", "TigerTix.Api.Data\TigerTix.Api.Data.csproj", "{70834EB0-F34F-4915-93C7-3F79423AFFD6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{1CABD9A0-534E-4C44-8D6F-37A34769370D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CABD9A0-534E-4C44-8D6F-37A34769370D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CABD9A0-534E-4C44-8D6F-37A34769370D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EE8A99B-6253-4A25-866F-B6855AAB5E07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EE8A99B-6253-4A25-866F-B6855AAB5E07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EE8A99B-6253-4A25-866F-B6855AAB5E07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EE8A99B-6253-4A25-866F-B6855AAB5E07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70834EB0-F34F-4915-93C7-3F79423AFFD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70834EB0-F34F-4915-93C7-3F79423AFFD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70834EB0-F34F-4915-93C7-3F79423AFFD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70834EB0-F34F-4915-93C7-3F79423AFFD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

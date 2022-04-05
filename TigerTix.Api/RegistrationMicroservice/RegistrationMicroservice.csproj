@@ -8,11 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Models" />
+      <ProjectReference Include="..\TigerTix.Api.Data\TigerTix.Api.Data.csproj" />
     </ItemGroup>
 
 </Project>
