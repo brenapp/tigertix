@@ -5,46 +5,48 @@ import { Header, Button, Container } from "../components";
 import React, { FormEventHandler, ReactNode, useState } from "react";
 import { UserProfile, useUser } from "@auth0/nextjs-auth0";
 import { userInfo } from "os";
-import { connectUserManagement } from "../services/auth0";
+import { connectUserManagement, changePassword } from "../services/auth0";
 import { connect } from "http2";
+import { resolve } from "node:path/win32";
 
 const AccountInfo: NextPage<{}> = () => {
     const { user } = useUser();
     const [needToDisplayForm, setNeedToDisplayForm] = useState(false);
-    const [newUserName, setNewUserName] = useState("");
-    const [newEmail, setNewEmail] = useState("");
-    let profile = null;
+    const [newPassword, setNewPassword] = useState('');
+    const [validPassword, setValPassword] = useState('');
 
-    if (user) {
-        connectUserManagement();
-    }
 
     if (user && needToDisplayForm) {
-        profile = user;
 
         const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
+            
+            
 
-            if (!newUserName && !newEmail) {
-                alert("Please fill out at least one form before submitting.");
-            } else {
-                setNewUserInfo();
+            if (!newPassword || !validPassword) {
+                alert('Please be sure to fill out both entries with matching passwords.');
             }
+
+            else if (newPassword != validPassword) {
+                alert('Please enter matching passwords. Provided passwords did not match.');
+            }
+
+            else {
+                var token_req_response = connectUserManagement();
+
+                token_req_response.then((jsonResponse)=> {
+                    changePassword(jsonResponse.access_token, user, newPassword);
+                    alert('Your password was successfully changed!')
+                })
+            }
+
+            setNewPassword('');
+            setValPassword('');
 
             setNeedToDisplayForm(false);
-            setNewUserName("");
-            setNewEmail("");
         };
 
-        const setNewUserInfo = () => {
-            if (newEmail) {
-                user.email = newEmail;
-            }
-
-            if (newUserName) {
-                user.name = newUserName;
-            }
-        };
+        
 
         return (
             <Container>
@@ -55,46 +57,32 @@ const AccountInfo: NextPage<{}> = () => {
                 <div className={styles.user_info_page_title}>
                     Change Your Account Information
                 </div>
-                <div className={styles.user_info_titles}>
-                    Email:{" "}
-                    <span className={styles.user_info_contents}>
-                        {user.email}
-                    </span>
-                </div>
-
-                <div className={styles.user_info_titles}>
-                    Username:{" "}
-                    <span className={styles.user_info_contents}>
-                        {user.name}
-                    </span>
-                    <br />
-                    <br />
-                    <br />
-                </div>
+                
 
                 <form onSubmit={onSubmit}>
                     <label className={styles.user_info_titles} htmlFor="fname">
-                        New Email:
+                        New Password:
                     </label>
                     <input
                         className={styles.user_info_input_box}
                         type="text"
-                        onChange={(e) => setNewEmail(e.target.value)}
-                        value={newEmail}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        value={newPassword}
                     />
-                    <br />
-                    <br />
-                    <label className={styles.user_info_titles} htmlFor="lname">
-                        New Username:
+                    <br/>
+                    <br/>
+                
+                    <label className={styles.user_info_titles} htmlFor="fname">
+                        Verify New Password:
                     </label>
+                    
                     <input
                         className={styles.user_info_input_box}
                         type="text"
-                        onChange={(e) => setNewUserName(e.target.value)}
-                        value={newUserName}
+                        onChange={(e) => setValPassword(e.target.value)}
+                        value={validPassword}
                     />
-                    <br />
-                    <br />
+                    <br/>
                     <input
                         className={styles.user_info_submit}
                         type="submit"
