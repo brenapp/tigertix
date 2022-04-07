@@ -5,6 +5,8 @@ import { Header, Button, Container } from "../components";
 import React, { FormEventHandler, ReactNode, useState } from "react";
 import { UserProfile, useUser } from "@auth0/nextjs-auth0";
 import { userInfo } from "os";
+import { connectUserManagement } from "../services/auth0";
+import { connect } from "http2";
 
 const AccountInfo: NextPage<{}> = () => {
     const { user } = useUser();
@@ -12,6 +14,10 @@ const AccountInfo: NextPage<{}> = () => {
     const [newUserName, setNewUserName] = useState("");
     const [newEmail, setNewEmail] = useState("");
     let profile = null;
+
+    if (user) {
+        connectUserManagement();
+    }
 
     if (user && needToDisplayForm) {
         profile = user;

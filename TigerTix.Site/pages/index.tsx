@@ -2,7 +2,10 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import { Header, Container, EventPreview } from "../components";
-import { Event, getEvents } from "../services/events";
+import { Event, getEvents } from "../services/events"; 
+import { connectUserManagement } from "../services/auth0";
+import { userInfo } from "os";
+
 
 const Home: NextPage<{ events: Event[] }> = ({ events }) => {
     return (

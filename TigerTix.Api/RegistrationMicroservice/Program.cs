@@ -21,5 +21,15 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+Auth0Controller localAuth = new Auth0Controller();
+
+Task<string> token = localAuth.receiveAuth0Token();
+
+while (!token.IsCompleted) {
+    continue;
+}
+
+localAuth.runAPICall(token.Result);
+
 
 app.Run();
