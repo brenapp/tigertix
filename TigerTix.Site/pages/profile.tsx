@@ -37,6 +37,10 @@ const AccountInfo: NextPage<{}> = () => {
     const { user } = useUser();
     const router = useRouter();
 
+    const [resetStatus, setResetStatus] = useState<
+        "default" | "loading" | "success" | "errored"
+    >("default");
+
     if (!user) {
         if (typeof window !== "undefined") {
             router.push("/");
@@ -44,9 +48,6 @@ const AccountInfo: NextPage<{}> = () => {
         return null;
     }
 
-    const [resetStatus, setResetStatus] = useState<
-        "default" | "loading" | "success" | "errored"
-    >("default");
     async function resetPassword() {
         setResetStatus("loading");
         try {
@@ -71,10 +72,7 @@ const AccountInfo: NextPage<{}> = () => {
             <main className="p-8 my-8 rounded-lg container mx-auto">
                 <h1 className="text-2xl mb-4">Account Settings</h1>
                 <section>
-                    <Field
-                        label="Name"
-                        value={user.name ?? ""}
-                    />
+                    <Field label="Name" value={user.name ?? ""} />
                     <Field label="Email" value={user.email ?? ""} />
                     <div className="my-2 p-4 mt-8 items-center rounded-md bg-white border-2">
                         <p className="text-lg font-bold">
