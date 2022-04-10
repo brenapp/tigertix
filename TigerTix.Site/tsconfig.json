@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "services/auth0.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "services/auth0.ts"],
   "exclude": ["node_modules"]
 }
