@@ -2,8 +2,8 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import { Header, Container, EventPreview } from "../components";
-import { Event, getEvents } from "../services/events"; 
-
+import { Event, getEvents } from "../services/events";
+import { ArrowRightIcon } from "@heroicons/react/solid";
 
 const Home: NextPage<{ events: Event[] }> = ({ events }) => {
     return (
@@ -18,24 +18,18 @@ const Home: NextPage<{ events: Event[] }> = ({ events }) => {
                         <Link href="/events">
                             <a className="with-icon group">
                                 What&apos;s Happening
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6 group-hover:ml-3 ml-2 transition-all"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M14 5l7 7m0 0l-7 7m7-7H3"
-                                    />
-                                </svg>
+                                <ArrowRightIcon className="h-6 w-6 group-hover:ml-3 ml-2 transition-all" />
                             </a>
                         </Link>
                     </h1>
                     <div className="mt-4">
-                        {events.map((event) => <EventPreview key={event.id} event={event} className="bg-inherit border-0 lg:ml-0" />)}
+                        {events.map((event) => (
+                            <EventPreview
+                                key={event.id}
+                                event={event}
+                                className="bg-inherit border-0 lg:ml-0"
+                            />
+                        ))}
                     </div>
                 </section>
                 <section className="venues mx-4 mt-12">
@@ -43,19 +37,7 @@ const Home: NextPage<{ events: Event[] }> = ({ events }) => {
                         <Link href="/venues">
                             <a className="with-icon group hover:text-orange">
                                 Venues
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6 group-hover:ml-3 ml-2 transition-all"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M14 5l7 7m0 0l-7 7m7-7H3"
-                                    />
-                                </svg>
+                                <ArrowRightIcon className="h-6 w-6 group-hover:ml-3 ml-2 transition-all" />
                             </a>
                         </Link>
                     </h1>

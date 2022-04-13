@@ -1,3 +1,4 @@
+import { ArrowRightIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import Link from "next/link";
 import { Event } from "../services/events";
@@ -20,20 +21,7 @@ const EventPreview: React.FC<{ event: Event, className?: string }> = ({ event, c
                 <Link href={`/events/${event.id}`}>
                     <a className="flex items-center group text-orange hover:text-blood">
                         {event.title}
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 group-hover:ml-3 ml-2 transition-all"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M14 5l7 7m0 0l-7 7m7-7H3"
-                            />
-                        </svg>
+                        <ArrowRightIcon className="h-4 w-4 group-hover:ml-3 ml-2 transition-all"/>
                     </a>
                 </Link>
                 <h5 className="italic">{event.description}</h5>
