@@ -31,12 +31,15 @@ const Home: NextPage<{ events: Event[] }> = ({ events }) => {
                             />
                         ))}
                     </div>
-                    <Link href="/events/create">
-                        <a className="with-icon group italic text-orange">
-                            Post An Event
-                            <ArrowRightIcon className="h-4 w-4 group-hover:ml-3 ml-2 transition-all" />
-                        </a>
-                    </Link>
+                    <section className="mt-2">
+                        <p>Have an event of your own? Post it to TigerTix to increase its visibility, and unlock event management tools!</p>
+                        <Link href="/events/create">
+                            <a className="with-icon group italic text-orange">
+                                Post An Event
+                                <ArrowRightIcon className="h-4 w-4 group-hover:ml-3 ml-2 transition-all" />
+                            </a>
+                        </Link>
+                    </section>
                 </section>
                 <section className="venues mx-4 mt-12">
                     <h1 className="text-2xl with-icon">
