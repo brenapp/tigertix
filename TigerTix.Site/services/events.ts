@@ -19,7 +19,7 @@ export interface Event {
     }[];
 }
 
-const shim = {
+export const shim = {
     id: 37474,
     title: "The Scrum Kings' Karaoke Night",
     start: "2022-04-03T19:14:59.86237-04:00",

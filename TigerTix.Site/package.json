@@ -23,6 +23,7 @@
     "openssl": "^2.0.0",
     "rand": "^0.0.4",
     "react": "17.0.2",
+    "react-currency-input-field": "^3.6.4",
     "react-dom": "17.0.2",
     "request": "^2.79.0",
     "tls": "^0.0.1"
