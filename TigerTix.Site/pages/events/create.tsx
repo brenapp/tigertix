@@ -85,7 +85,7 @@ const EventCreateForm = () => {
                             onChange={(e) =>
                                 setEvent((prev) => ({
                                     ...prev,
-                                    start: e.target.value,
+                                    end: e.target.value,
                                 }))
                             }
                             className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
@@ -98,6 +98,7 @@ const EventCreateForm = () => {
                         <p>Venue</p>
                         <select
                             placeholder="Venue"
+                            style={{ height: 40 }}
                             className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
                         >
                             <option value="hsc">Hendrix Student Center</option>
@@ -106,7 +107,7 @@ const EventCreateForm = () => {
                         </select>
                     </label>
                     <label className="font-bold mb-4 w-full">
-                        <p>Address Description</p>
+                        <p>Venue Description</p>
                         <input
                             placeholder="Hendrix 2nd Floor"
                             type="text"
@@ -186,9 +187,10 @@ const EventCreateForm = () => {
                                     description: e.target.value,
                                 }))
                             }
-                            className="border-2 rounded-md w-full h-24 p-2"
+                            className="border-2 rounded-md w-full h-24 p-2 outline-orange"
                         ></textarea>
                     </label>
+                    <p className="lg:mt-6 ml-2 italic text-sm">The event description should be a brief, one-sentence overview of your event. You can enter more information in the content blocks below. </p>
                 </div>
             </section>
             <section className="preview lg:col-span-1 col-span-2">
