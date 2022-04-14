@@ -14,7 +14,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { Editor, EditorState, getDefaultKeyBinding, RichUtils } from "draft-js";
+import { ContentBlock, DraftBlockType, Editor, EditorState, getDefaultKeyBinding, RichUtils } from "draft-js";
 import "draft-js/dist/Draft.css";
 
 const EventCreatePrecursor = ({ onClick }: { onClick: () => void }) => {
@@ -90,7 +90,8 @@ const ContentBlockEditor = () => {
     const EditorButton: React.FC<{
         selected: boolean;
         onSelect: () => void;
-    }> = ({ children, selected, onSelect }) => {
+        className?: string;
+    }> = ({ children, selected, onSelect, className }) => {
         return (
             <Button
                 onMouseDown={(e) => {
@@ -98,7 +99,7 @@ const ContentBlockEditor = () => {
                     onSelect();
                 }}
                 className={
-                    `font-serif w-8 h-8 border-2 mr-2 ` +
+                    `font-serif px-2 border-2 mr-2 ${className} ` +
                     (selected ? " border-orange" : "")
                 }
                 color="none"
@@ -118,24 +119,42 @@ const ContentBlockEditor = () => {
         { label: "Blockquote", style: "blockquote" },
         { label: "UL", style: "unordered-list-item" },
         { label: "OL", style: "ordered-list-item" },
-        { label: "Code Block", style: "code-block" },
     ];
+
+    function getBlockStyle(block: ContentBlock) {
+        switch (block.getType()) {
+            case "header-one":
+                return "text-2xl text-orange";
+            case "header-two":
+                return "text-2xl italic";
+            case "header-three":
+                return "text-2xl";
+            case "header-four":
+                return "text-xl";
+            case "header-five":
+                return "text-lg";
+            case "header-six":
+                return "text-md";
+            case "blockquote":
+                return "border-l-2 p-2 border-gray-500 bg-gray-200";
+            default:
+                return null;
+        };
+    };
+
     const INLINE_STYLES = [
         { label: "B", style: "BOLD" },
         { label: "I", style: "ITALIC" },
         { label: "U", style: "UNDERLINE" },
     ];
 
+    const selection = editorState.getSelection();
     const inlineStyle = editorState.getCurrentInlineStyle();
+    const blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType();
 
     return (
-        <div
-            className={
-                "mt-4 border-2 rounded-md mb-2 p-4 " +
-                (focused ? "border-orange" : "")
-            }
-        >
-            <nav className="pb-1">
+        <div className="mb-4">
+            <nav className="p-2 border-2 rounded-md hover:shadow-sm flex flex-wrap">
                 {INLINE_STYLES.map((type) => (
                     <EditorButton
                         selected={inlineStyle.contains(type.style)}
@@ -151,8 +170,29 @@ const ContentBlockEditor = () => {
                         {type.label}
                     </EditorButton>
                 ))}
+                <div className="border-r-2 border-b-gray-500 h-8 mr-2"></div>
+                {BLOCK_TYPES.map((type) => (
+                    <EditorButton
+                        selected={blockType == type.style}
+                        onSelect={() => setEditorState(
+                            RichUtils.toggleBlockType(
+                                editorState,
+                                type.style
+                            )
+                        )}
+                        className="font-sans"
+                    >
+                        {type.label}
+                    </EditorButton>
+                ))}
             </nav>
-            <div onClick={() => editor.current?.focus()}>
+            <div
+                onClick={() => editor.current?.focus()}
+                className={
+                    "mt-2 border-2 rounded-md p-2 " +
+                    (focused ? "border-orange" : "")
+                }
+            >
                 <Editor
                     editorState={editorState}
                     onChange={setEditorState}
@@ -162,6 +202,8 @@ const ContentBlockEditor = () => {
                     onFocus={() => setFocused(true)}
                     onBlur={() => setFocused(false)}
                     keyBindingFn={mapKeyToEditorCommand}
+                    blockStyleFn={getBlockStyle}
+                    placeholder="Enter the information for this content block here..."
                     ref={editor}
                 />
             </div>
@@ -414,9 +456,9 @@ const EventCreateForm = () => {
             <section className="bg-white rounded-md border-2 px-4 py-2 col-span-2">
                 <h2 className="text-orange text-lg italic">Content Blocks</h2>
                 <p>
-                    Use content blocks to add more details about your events,
+                    Use content blocks to add more details about your event,
                     including policies, safety information, payment information,
-                    and more.{" "}
+                    and more.
                 </p>
                 <nav className="blocks flex flex-wrap pt-4">
                     {event.blocks.map((block, index) => (
@@ -440,7 +482,20 @@ const EventCreateForm = () => {
                     </Button>
                 </nav>
                 <div>
-                    <ContentBlockEditor />
+                    <label className="font-bold mb-4 w-full">
+                        <p>Tab Name</p>
+                        <input
+                            placeholder="24 Wallaby Way, Sydney"
+                            type="text"
+                            value={event.blocks[blockIndex].title}
+                            onChange={(e) => {}}
+                            className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
+                        />
+                    </label>
+                    <div className="mt-4">
+                        <p className="font-bold mt-4">Tab Content</p>
+                        <ContentBlockEditor />
+                    </div>
                 </div>
             </section>
         </section>
