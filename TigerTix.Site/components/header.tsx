@@ -116,9 +116,11 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
                     props.className
                 }
             >
-                <h1 className="text-4xl italic bold text-white text-opacity-90 pl-6">
-                    TigerTix
-                </h1>
+                <Link href={"/"}>
+                    <h1 className="text-4xl italic bold text-white text-opacity-90 pl-6 cursor-pointer">
+                        TigerTix
+                    </h1>
+                </Link>
                 {props.children}
                 {user ? <ManageAccount profile={user} /> : <Login />}
             </header>
