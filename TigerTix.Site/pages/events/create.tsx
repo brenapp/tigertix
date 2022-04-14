@@ -12,6 +12,7 @@ import {
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
 const EventCreatePrecursor = ({ onClick }: { onClick: () => void }) => {
     return (
@@ -300,3 +301,5 @@ const EventCreate: NextPage = () => {
 };
 
 export default EventCreate;
+
+export const getServerSideProps = withPageAuthRequired();
