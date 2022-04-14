@@ -12,9 +12,13 @@ import {
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
-import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
 
 const EventCreatePrecursor = ({ onClick }: { onClick: () => void }) => {
+    const { user } = useUser();
+
+    if (!user) return;
+
     return (
         <Container className="container mx-auto md:p-2">
             <h1 className="text-2xl">Create An Event</h1>
@@ -24,9 +28,18 @@ const EventCreatePrecursor = ({ onClick }: { onClick: () => void }) => {
                 admin page. Additionally, you will be able to download a list of
                 registrations for your own purposes.
             </p>
+            <div className="mt-4">
+                <h2 className="text-lg text-orange italic">Event Administrator</h2>
+                <p className="bg-white mt-2 border-2 rounded-md px-4 py-2">
+                    <span className="font-bold mr-4">Name</span> {user.name}
+                </p>
+                <p className="bg-white mt-2 border-2 rounded-md px-4 py-2">
+                    <span className="font-bold mr-4">Email</span> {user.email}
+                </p>
+            </div>
             <Button
                 color="primary"
-                className="p-1 px-6 mt-4 flex items-center"
+                className="p-1 px-6 mt-2 flex items-center"
                 onClick={onClick}
             >
                 Next
@@ -37,18 +50,17 @@ const EventCreatePrecursor = ({ onClick }: { onClick: () => void }) => {
 };
 
 const EventCreateForm = () => {
-
     let start = shim;
     if (sessionStorage.getItem("event") !== null) {
         start = JSON.parse(sessionStorage.getItem("event") as string);
-    };
+    }
 
     const [event, setEvent] = useState<Event>(start);
     const dateString = new Date(event.start).toLocaleString();
 
     // Save the current event data to session storage
     useEffect(() => {
-            sessionStorage.setItem("event", JSON.stringify(event));
+        sessionStorage.setItem("event", JSON.stringify(event));
     }, [event]);
 
     return (
@@ -282,7 +294,8 @@ const EventCreateForm = () => {
 };
 
 const EventCreate: NextPage = () => {
-    const [showForm, setShowForm] = useState(false);
+    const [showForm, setShowForm] = useState(typeof window !== "undefined" && sessionStorage.getItem("event") !== null);
+
     return (
         <Container>
             <Header
