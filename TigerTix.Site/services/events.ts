@@ -35,6 +35,10 @@ export const shim = {
     venue_address: "Cherry Rd, Clemson, SC 29631",
     blocks: [
         {
+            title: "General Information",
+            description: "Be safe out there!",
+        },
+        {
             title: "Health & Safety Policy",
             description: "Be safe out there!",
         },
