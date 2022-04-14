@@ -51,6 +51,13 @@ const EventCreateForm = () => {
                         <input
                             placeholder="Event Name..."
                             type="text"
+                            value={event.title}
+                            onChange={(e) =>
+                                setEvent((prev) => ({
+                                    ...prev,
+                                    title: e.target.value,
+                                }))
+                            }
                             className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
                         />
                     </label>
@@ -59,6 +66,13 @@ const EventCreateForm = () => {
                         <input
                             placeholder="Start"
                             type="datetime-local"
+                            value={event.start}
+                            onChange={(e) =>
+                                setEvent((prev) => ({
+                                    ...prev,
+                                    start: e.target.value,
+                                }))
+                            }
                             className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
                         />
                     </label>
@@ -67,6 +81,13 @@ const EventCreateForm = () => {
                         <input
                             placeholder="End"
                             type="datetime-local"
+                            value={event.end}
+                            onChange={(e) =>
+                                setEvent((prev) => ({
+                                    ...prev,
+                                    start: e.target.value,
+                                }))
+                            }
                             className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
                         />
                     </label>
@@ -89,6 +110,13 @@ const EventCreateForm = () => {
                         <input
                             placeholder="Hendrix 2nd Floor"
                             type="text"
+                            value={event.venue_description}
+                            onChange={(e) =>
+                                setEvent((prev) => ({
+                                    ...prev,
+                                    venue_description: e.target.value,
+                                }))
+                            }
                             className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
                         />
                     </label>
@@ -97,6 +125,13 @@ const EventCreateForm = () => {
                         <input
                             placeholder="24 Wallaby Way, Sydney"
                             type="text"
+                            value={event.venue_address}
+                            onChange={(e) =>
+                                setEvent((prev) => ({
+                                    ...prev,
+                                    venue_address: e.target.value,
+                                }))
+                            }
                             className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
                         />
                     </label>
@@ -106,7 +141,16 @@ const EventCreateForm = () => {
                         <p>Registration Price</p>
                         <CurrencyInput
                             placeholder="5.00"
-                            prefix="$"
+                            // prefix="$"
+                            value={event.registration_price || 0}
+                            onChange={(e) =>
+                                setEvent((prev) => ({
+                                    ...prev,
+                                    registration_price: Number.parseFloat(
+                                        e.target.value
+                                    ),
+                                }))
+                            }
                             className=" w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
                         />
                     </label>
@@ -115,6 +159,18 @@ const EventCreateForm = () => {
                         <input
                             placeholder="100 spots"
                             type="number"
+                            value={event.capacity_total}
+                            onChange={(e) =>
+                                setEvent((prev) => ({
+                                    ...prev,
+                                    capacity_total: Number.parseInt(
+                                        e.target.value
+                                    ),
+                                    capacity_remaining: Number.parseInt(
+                                        e.target.value
+                                    ),
+                                }))
+                            }
                             className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
                         />
                     </label>
@@ -122,7 +178,16 @@ const EventCreateForm = () => {
                 <div className="form-group grid lg:grid-cols-3 lg:gap-2 col-span-2">
                     <label className="font-bold mb-4 w-full col-span-2">
                         <p>Event Description</p>
-                        <textarea className="border-2 rounded-md w-full h-24 p-2"></textarea>
+                        <textarea
+                            value={event.description}
+                            onChange={(e) =>
+                                setEvent((prev) => ({
+                                    ...prev,
+                                    description: e.target.value,
+                                }))
+                            }
+                            className="border-2 rounded-md w-full h-24 p-2"
+                        ></textarea>
                     </label>
                 </div>
             </section>
