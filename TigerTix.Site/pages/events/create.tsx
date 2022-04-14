@@ -8,16 +8,19 @@ import {
     CurrencyDollarIcon,
     GlobeAltIcon,
     LocationMarkerIcon,
+    PlusIcon,
 } from "@heroicons/react/solid";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { Editor, EditorState, getDefaultKeyBinding, RichUtils } from "draft-js";
+import "draft-js/dist/Draft.css";
 
 const EventCreatePrecursor = ({ onClick }: { onClick: () => void }) => {
     const { user } = useUser();
 
-    if (!user) return;
+    if (!user) return null;
 
     return (
         <Container className="container mx-auto md:p-2">
@@ -29,7 +32,9 @@ const EventCreatePrecursor = ({ onClick }: { onClick: () => void }) => {
                 registrations for your own purposes.
             </p>
             <div className="mt-4">
-                <h2 className="text-lg text-orange italic">Event Administrator</h2>
+                <h2 className="text-lg text-orange italic">
+                    Event Administrator
+                </h2>
                 <p className="bg-white mt-2 border-2 rounded-md px-4 py-2">
                     <span className="font-bold mr-4">Name</span> {user.name}
                 </p>
@@ -49,6 +54,118 @@ const EventCreatePrecursor = ({ onClick }: { onClick: () => void }) => {
     );
 };
 
+const ContentBlockEditor = () => {
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());
+    const editor = useRef<Editor>(null);
+    const [focused, setFocused] = useState(false);
+
+    function handleKeyCommand<A, B>(command: string, editorState: EditorState) {
+        const newState = RichUtils.handleKeyCommand(editorState, command);
+        if (newState) {
+            setEditorState(newState);
+            return "handled";
+        }
+        return "not-handled";
+    }
+
+    const mapKeyToEditorCommand = useCallback(
+        (e) => {
+            switch (e.keyCode) {
+                case 9: // TAB
+                    const newEditorState = RichUtils.onTab(
+                        e,
+                        editorState,
+                        4 /* maxDepth */
+                    );
+                    if (newEditorState !== editorState) {
+                        setEditorState(newEditorState);
+                    }
+                    return null;
+            }
+            return getDefaultKeyBinding(e);
+        },
+        [editorState, setEditorState]
+    );
+
+    const EditorButton: React.FC<{
+        selected: boolean;
+        onSelect: () => void;
+    }> = ({ children, selected, onSelect }) => {
+        return (
+            <Button
+                onMouseDown={e => { e.preventDefault(); onSelect() }}
+                className={
+                    `font-serif w-8 h-8 border-2 mr-2 ` +
+                    (selected ? " border-orange" : "")
+                }
+                color="none"
+            >
+                {children}
+            </Button>
+        );
+    };
+
+    const inlineStyle = editorState.getCurrentInlineStyle();
+
+    return (
+        <div
+            className={
+                "mt-4 border-2 rounded-md mb-2 p-4 " +
+                (focused ? "border-orange" : "")
+            }
+        >
+            <nav className="pb-1">
+                <EditorButton
+                    selected={inlineStyle.contains("BOLD")}
+                    onSelect={() =>
+                        setEditorState(
+                            RichUtils.toggleInlineStyle(editorState, "BOLD")
+                        )
+                    }
+                >
+                    B
+                </EditorButton>
+                <EditorButton
+                    selected={inlineStyle.contains("ITALIC")}
+                    onSelect={() =>
+                        setEditorState(
+                            RichUtils.toggleInlineStyle(editorState, "ITALIC")
+                        )
+                    }
+                >
+                    I
+                </EditorButton>
+                <EditorButton
+                    selected={inlineStyle.contains("UNDERLINE")}
+                    onSelect={() =>
+                        setEditorState(
+                            RichUtils.toggleInlineStyle(
+                                editorState,
+                                "UNDERLINE"
+                            )
+                        )
+                    }
+                >
+                    U
+                </EditorButton>
+            </nav>
+            <div onClick={() => editor.current?.focus()}>
+                <Editor
+                    editorState={editorState}
+                    onChange={setEditorState}
+                    spellCheck={true}
+                    stripPastedStyles={true}
+                    handleKeyCommand={handleKeyCommand}
+                    onFocus={() => setFocused(true)}
+                    onBlur={() => setFocused(false)}
+                    keyBindingFn={mapKeyToEditorCommand}
+                    ref={editor}
+                />
+            </div>
+        </div>
+    );
+};
+
 const EventCreateForm = () => {
     let start = shim;
     if (sessionStorage.getItem("event") !== null) {
@@ -62,6 +179,8 @@ const EventCreateForm = () => {
     useEffect(() => {
         sessionStorage.setItem("event", JSON.stringify(event));
     }, [event]);
+
+    const [blockIndex, setBlockIndex] = useState(0);
 
     return (
         <section className="create grid lg:grid-cols-3 gap-2 mt-4">
@@ -289,12 +408,47 @@ const EventCreateForm = () => {
                     </section>
                 </section>
             </section>
+            <section className="bg-white rounded-md border-2 px-4 py-2 col-span-2">
+                <h2 className="text-orange text-lg italic">Content Blocks</h2>
+                <p>
+                    Use content blocks to add more details about your events,
+                    including policies, safety information, payment information,
+                    and more.{" "}
+                </p>
+                <nav className="blocks flex flex-wrap pt-4">
+                    {event.blocks.map((block, index) => (
+                        <Button
+                            onClick={() => setBlockIndex(index)}
+                            color={index == blockIndex ? "primary" : "none"}
+                            className={
+                                "px-6 py-1.5 border-2 mr-2 mb-2 " +
+                                (index == blockIndex ? "border-orange" : "")
+                            }
+                        >
+                            {block.title}
+                        </Button>
+                    ))}
+                    <Button
+                        onClick={() => {}}
+                        color="none"
+                        className="px-4 mb-2"
+                    >
+                        <PlusIcon className="text-orange w-6 h-6" />
+                    </Button>
+                </nav>
+                <div>
+                    <ContentBlockEditor />
+                </div>
+            </section>
         </section>
     );
 };
 
 const EventCreate: NextPage = () => {
-    const [showForm, setShowForm] = useState(typeof window !== "undefined" && sessionStorage.getItem("event") !== null);
+    const [showForm, setShowForm] = useState(
+        typeof window !== "undefined" &&
+            sessionStorage.getItem("event") !== null
+    );
 
     return (
         <Container>
