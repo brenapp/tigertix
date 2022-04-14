@@ -14,7 +14,14 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
-import { ContentBlock, DraftBlockType, Editor, EditorState, getDefaultKeyBinding, RichUtils } from "draft-js";
+import {
+    ContentBlock,
+    DraftBlockType,
+    Editor,
+    EditorState,
+    getDefaultKeyBinding,
+    RichUtils,
+} from "draft-js";
 import "draft-js/dist/Draft.css";
 
 const EventCreatePrecursor = ({ onClick }: { onClick: () => void }) => {
@@ -139,8 +146,8 @@ const ContentBlockEditor = () => {
                 return "border-l-2 p-2 border-gray-500 bg-gray-200";
             default:
                 return "";
-        };
-    };
+        }
+    }
 
     const INLINE_STYLES = [
         { label: "B", style: "BOLD" },
@@ -150,13 +157,17 @@ const ContentBlockEditor = () => {
 
     const selection = editorState.getSelection();
     const inlineStyle = editorState.getCurrentInlineStyle();
-    const blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType();
+    const blockType = editorState
+        .getCurrentContent()
+        .getBlockForKey(selection.getStartKey())
+        .getType();
 
     return (
         <div className="mb-4">
             <nav className="p-2 border-2 rounded-md hover:shadow-sm flex flex-wrap">
                 {INLINE_STYLES.map((type) => (
                     <EditorButton
+                        key={type.style}
                         selected={inlineStyle.contains(type.style)}
                         onSelect={() =>
                             setEditorState(
@@ -173,13 +184,16 @@ const ContentBlockEditor = () => {
                 <div className="border-r-2 border-b-gray-500 h-8 mr-2"></div>
                 {BLOCK_TYPES.map((type) => (
                     <EditorButton
+                        key={type.style}
                         selected={blockType == type.style}
-                        onSelect={() => setEditorState(
-                            RichUtils.toggleBlockType(
-                                editorState,
-                                type.style
+                        onSelect={() =>
+                            setEditorState(
+                                RichUtils.toggleBlockType(
+                                    editorState,
+                                    type.style
+                                )
                             )
-                        )}
+                        }
                         className="font-sans"
                     >
                         {type.label}
@@ -388,6 +402,7 @@ const EventCreateForm = () => {
                 <section className="grid grid-cols-1">
                     <section className="image relative mx-auto w-full h-full rounded-md">
                         <Image
+                            alt={event.description}
                             src={event.image_hero}
                             height={500}
                             width={1500}
@@ -463,6 +478,7 @@ const EventCreateForm = () => {
                 <nav className="blocks flex flex-wrap pt-4">
                     {event.blocks.map((block, index) => (
                         <Button
+                            key={block.title}
                             onClick={() => setBlockIndex(index)}
                             color={index == blockIndex ? "primary" : "none"}
                             className={
