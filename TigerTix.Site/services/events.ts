@@ -46,7 +46,12 @@ export const shim = {
 };
 
 
-export async function getEvents(n: number) {
+// Allow self-signed in development
+if (process.env.NODE_ENV === "development") {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+};
+
+export async function getEvents(n: number): Promise<Event[]> {
 
     // shim 😎
     if (process.env.NODE_ENV === "production") {
@@ -56,7 +61,7 @@ export async function getEvents(n: number) {
     try {
         return fetch(`https://localhost:7291/list?n=${n}`).then(
             (r) => r.json() as Promise<Event[]>
-        ).catch(e => []);
+        );
     } catch (e) {
         // console.error(e);
         return [];
