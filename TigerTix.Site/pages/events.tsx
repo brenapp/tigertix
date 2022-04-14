@@ -1,10 +1,24 @@
+import { ArrowRightIcon } from "@heroicons/react/solid";
 import type { NextPage } from "next";
+import Link from "next/link";
 import { useState } from "react";
-import { Button, Container, Header, Loading, EventPreview } from "../components";
+import {
+    Button,
+    Container,
+    Header,
+    Loading,
+    EventPreview,
+} from "../components";
 import { getEvents, Event } from "../services/events";
 
 const EventsList: React.FC<{ data: Event[] }> = ({ data }) => {
-    return <>{data.map(event => <EventPreview key={event.id} event={event} />)}</>;
+    return (
+        <>
+            {data.map((event) => (
+                <EventPreview key={event.id} event={event} />
+            ))}
+        </>
+    );
 };
 
 const EventsListError: React.FC = () => {
@@ -79,6 +93,16 @@ const EventPage: NextPage<{ events: Event[] }> = ({ events }) => {
                     >
                         Filter
                     </Button>
+
+                    <div className="pt-8">
+                        <p>Hosting an event on campus?</p>
+                        <Link href="/events/create">
+                            <a className="with-icon group italic text-orange">
+                                Post Your Event
+                                <ArrowRightIcon className="h-4 w-4 group-hover:ml-3 ml-2 transition-all" />
+                            </a>
+                        </Link>
+                    </div>
                 </section>
                 <section className="events flex-1">
                     <Loading render={EventsList} promise={data} />
@@ -91,8 +115,7 @@ const EventPage: NextPage<{ events: Event[] }> = ({ events }) => {
 export default EventPage;
 
 export async function getServerSideProps() {
-
     const events = await getEvents(5);
 
-    return { props: { events } }
-};
+    return { props: { events } };
+}
