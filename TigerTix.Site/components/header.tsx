@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
         const [dropDownOpen, setDropDownOpen] = useState(false);
 
         return (
-            <div className="relative inline-block text-left ml-auto mr-4 text-white hover:bg-black hover:bg-opacity-20 p-3 px-6 rounded-sm">
+            <div className="relative inline-block text-left ml-auto mr-4 text-white hover:bg-black hover:bg-opacity-20 p-3 px-6 rounded-sm z-50">
                 <a
                     className="flex cursor-pointer"
                     onClick={() => setDropDownOpen((open) => !open)}
