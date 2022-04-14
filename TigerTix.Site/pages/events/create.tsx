@@ -138,7 +138,7 @@ const ContentBlockEditor = () => {
             case "blockquote":
                 return "border-l-2 p-2 border-gray-500 bg-gray-200";
             default:
-                return null;
+                return "";
         };
     };
 
