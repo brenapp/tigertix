@@ -93,7 +93,10 @@ const ContentBlockEditor = () => {
     }> = ({ children, selected, onSelect }) => {
         return (
             <Button
-                onMouseDown={e => { e.preventDefault(); onSelect() }}
+                onMouseDown={(e) => {
+                    e.preventDefault();
+                    onSelect();
+                }}
                 className={
                     `font-serif w-8 h-8 border-2 mr-2 ` +
                     (selected ? " border-orange" : "")
@@ -105,6 +108,24 @@ const ContentBlockEditor = () => {
         );
     };
 
+    const BLOCK_TYPES = [
+        { label: "H1", style: "header-one" },
+        { label: "H2", style: "header-two" },
+        { label: "H3", style: "header-three" },
+        { label: "H4", style: "header-four" },
+        { label: "H5", style: "header-five" },
+        { label: "H6", style: "header-six" },
+        { label: "Blockquote", style: "blockquote" },
+        { label: "UL", style: "unordered-list-item" },
+        { label: "OL", style: "ordered-list-item" },
+        { label: "Code Block", style: "code-block" },
+    ];
+    const INLINE_STYLES = [
+        { label: "B", style: "BOLD" },
+        { label: "I", style: "ITALIC" },
+        { label: "U", style: "UNDERLINE" },
+    ];
+
     const inlineStyle = editorState.getCurrentInlineStyle();
 
     return (
@@ -115,39 +136,21 @@ const ContentBlockEditor = () => {
             }
         >
             <nav className="pb-1">
-                <EditorButton
-                    selected={inlineStyle.contains("BOLD")}
-                    onSelect={() =>
-                        setEditorState(
-                            RichUtils.toggleInlineStyle(editorState, "BOLD")
-                        )
-                    }
-                >
-                    B
-                </EditorButton>
-                <EditorButton
-                    selected={inlineStyle.contains("ITALIC")}
-                    onSelect={() =>
-                        setEditorState(
-                            RichUtils.toggleInlineStyle(editorState, "ITALIC")
-                        )
-                    }
-                >
-                    I
-                </EditorButton>
-                <EditorButton
-                    selected={inlineStyle.contains("UNDERLINE")}
-                    onSelect={() =>
-                        setEditorState(
-                            RichUtils.toggleInlineStyle(
-                                editorState,
-                                "UNDERLINE"
+                {INLINE_STYLES.map((type) => (
+                    <EditorButton
+                        selected={inlineStyle.contains(type.style)}
+                        onSelect={() =>
+                            setEditorState(
+                                RichUtils.toggleInlineStyle(
+                                    editorState,
+                                    type.style
+                                )
                             )
-                        )
-                    }
-                >
-                    U
-                </EditorButton>
+                        }
+                    >
+                        {type.label}
+                    </EditorButton>
+                ))}
             </nav>
             <div onClick={() => editor.current?.focus()}>
                 <Editor
