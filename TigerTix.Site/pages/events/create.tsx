@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Link from "next/link";
 import { Header, Container, Button } from "../../components";
 import { Event, shim } from "../../services/events";
 import {
@@ -11,7 +10,7 @@ import {
     LocationMarkerIcon,
 } from "@heroicons/react/solid";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 
 const EventCreatePrecursor = ({ onClick }: { onClick: () => void }) => {
@@ -37,8 +36,19 @@ const EventCreatePrecursor = ({ onClick }: { onClick: () => void }) => {
 };
 
 const EventCreateForm = () => {
-    const [event, setEvent] = useState<Event>(shim);
+
+    let start = shim;
+    if (sessionStorage.getItem("event") !== null) {
+        start = JSON.parse(sessionStorage.getItem("event") as string);
+    };
+
+    const [event, setEvent] = useState<Event>(start);
     const dateString = new Date(event.start).toLocaleString();
+
+    // Save the current event data to session storage
+    useEffect(() => {
+            sessionStorage.setItem("event", JSON.stringify(event));
+    }, [event]);
 
     return (
         <section className="create grid lg:grid-cols-3 gap-2 mt-4">
@@ -190,7 +200,11 @@ const EventCreateForm = () => {
                             className="border-2 rounded-md w-full h-24 p-2 outline-orange"
                         ></textarea>
                     </label>
-                    <p className="lg:mt-6 ml-2 italic text-sm">The event description should be a brief, one-sentence overview of your event. You can enter more information in the content blocks below. </p>
+                    <p className="lg:mt-6 ml-2 italic text-sm">
+                        The event description should be a brief, one-sentence
+                        overview of your event. You can enter more information
+                        in the content blocks below.{" "}
+                    </p>
                 </div>
             </section>
             <section className="preview lg:col-span-1 col-span-2">
