@@ -9,6 +9,27 @@ import {
 import { Dispatch, SetStateAction, useCallback, useRef, useState } from "react";
 import Button from "./button";
 
+function getBlockStyle(block: ContentBlock) {
+    switch (block.getType()) {
+        case "header-one":
+            return "text-2xl text-orange";
+        case "header-two":
+            return "text-2xl italic";
+        case "header-three":
+            return "text-2xl";
+        case "header-four":
+            return "text-xl";
+        case "header-five":
+            return "text-lg";
+        case "header-six":
+            return "text-md";
+        case "blockquote":
+            return "border-l-2 p-2 border-gray-500 bg-gray-200";
+        default:
+            return "";
+    }
+}
+
 const ContentBlockEditor: React.FC<
     {
         state: EditorState;
@@ -79,27 +100,6 @@ const ContentBlockEditor: React.FC<
         { label: "UL", style: "unordered-list-item" },
         { label: "OL", style: "ordered-list-item" },
     ];
-
-    function getBlockStyle(block: ContentBlock) {
-        switch (block.getType()) {
-            case "header-one":
-                return "text-2xl text-orange";
-            case "header-two":
-                return "text-2xl italic";
-            case "header-three":
-                return "text-2xl";
-            case "header-four":
-                return "text-xl";
-            case "header-five":
-                return "text-lg";
-            case "header-six":
-                return "text-md";
-            case "blockquote":
-                return "border-l-2 p-2 border-gray-500 bg-gray-200";
-            default:
-                return "";
-        }
-    }
 
     const INLINE_STYLES = [
         { label: "B", style: "BOLD" },
@@ -179,3 +179,16 @@ const ContentBlockEditor: React.FC<
 };
 
 export default ContentBlockEditor;
+
+export const ContentBlockDisplay: React.FC<{
+    state: EditorState;
+} & Partial<EditorProps>> = ({ state }) => 
+    <div className="text-gray-700">
+        <Editor
+            editorState={state}
+            blockStyleFn={getBlockStyle}
+            onChange={() => {}}
+            readOnly={true}
+            spellCheck={false}
+        />
+    </div>

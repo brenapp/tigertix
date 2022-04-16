@@ -21,7 +21,7 @@ import {
     EditorState,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
-import ContentBlockEditor from "../../components/contentBlockEditor";
+import ContentBlockEditor, { ContentBlockDisplay } from "../../components/contentBlockEditor";
 
 const EventCreatePrecursor = ({ onClick }: { onClick: () => void }) => {
     const { user } = useUser();
@@ -114,7 +114,7 @@ const EventCreateForm = () => {
 
     function removeIndex(index: number) {
         if (index === 0) return;
-        setBlockIndex(0);
+        setBlockIndex(index - 1);
         setEvent((event) => ({
             ...event,
             blocks: [
@@ -379,12 +379,13 @@ const EventCreateForm = () => {
                         </Button>
                     ))}
                     <Button
-                        onClick={() =>
+                        onClick={() => {
                             setBlock(event.blocks.length, {
                                 title: "New Tab",
                                 description: "",
-                            })
-                        }
+                            });
+                            setBlockIndex(event.blocks.length);
+                        }}
                         color="none"
                         className="px-4 mb-2"
                     >
@@ -439,6 +440,14 @@ const EventCreateForm = () => {
                         </div>
                     </div>
                 )}
+            </section>
+            <section className="bg-white rounded-md border-2 px-4 py-2 col-span-1">
+                <h1 className="text-lg pt-2 text-orange">{event.blocks[blockIndex].title} <span className="text-sm italic text-gray-700">(Preview)</span></h1>
+                <div>
+                <ContentBlockDisplay
+                    state={editorState}
+                    />
+                </div>
             </section>
         </section>
     );
