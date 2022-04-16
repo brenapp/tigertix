@@ -36,15 +36,15 @@ export const shim = {
     blocks: [
         {
             title: "General Information",
-            description: "Be safe out there!",
+            description: "",
         },
         {
             title: "Health & Safety Policy",
-            description: "Be safe out there!",
+            description: "",
         },
         {
             title: "Refund Policy",
-            description: "No refunds",
+            description: "",
         },
     ],
 };

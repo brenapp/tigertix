@@ -15,12 +15,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import {
-    ContentBlock,
-    DraftBlockType,
-    Editor,
+    ContentState,
+    convertFromRaw,
+    convertToRaw,
     EditorState,
-    getDefaultKeyBinding,
-    RichUtils,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
 import ContentBlockEditor from "../../components/contentBlockEditor";
@@ -69,33 +67,69 @@ const EventCreateForm = () => {
     }
 
     const [event, setEvent] = useState<Event>(start);
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());
+    const [blockIndex, setBlockIndex] = useState(0);
+    const [editorState, setEditorState] = useState(
+        EditorState.createWithContent(
+            event.blocks?.[blockIndex]?.description
+                ? convertFromRaw(
+                      JSON.parse(event.blocks[blockIndex].description)
+                  )
+                : ContentState.createFromText("")
+        )
+    );
+
+    // Persist editor state to the event object
+    useEffect(() => {
+        const raw = convertToRaw(editorState.getCurrentContent());
+        event.blocks[blockIndex].description = JSON.stringify(raw);
+    }, [editorState]);
+
+    // Change content block state when you switch tabs
+    useEffect(() => {
+        setEditorState(
+            EditorState.createWithContent(
+                event.blocks[blockIndex].description
+                    ? convertFromRaw(
+                          JSON.parse(event.blocks[blockIndex].description)
+                      )
+                    : ContentState.createFromText("")
+            )
+        );
+    }, [blockIndex]);
 
     function setBlock(
         index: number,
         block: { title?: string; description?: string }
     ) {
-        // NOTE: I hate everything about this 
+        // NOTE: I hate everything about this
         setEvent((event) => ({
             ...event,
             blocks: [
                 ...event.blocks.slice(0, index),
-                {...event.blocks[index], ...block},
+                { ...event.blocks[index], ...block },
                 ...event.blocks.slice(index + 1),
-            ]
+            ],
         }));
     }
-    const dateString = new Date(event.start).toLocaleString();
+
+    function removeIndex(index: number) {
+        if (index === 0) return;
+        setBlockIndex(0);
+        setEvent((event) => ({
+            ...event,
+            blocks: [
+                ...event.blocks.slice(0, index),
+                ...event.blocks.slice(index + 1),
+            ],
+        }));
+    }
 
     // Save the current event data to session storage
     useEffect(() => {
         sessionStorage.setItem("event", JSON.stringify(event));
     }, [event]);
 
-    
-
-    const [blockIndex, setBlockIndex] = useState(0);
-
+    const dateString = new Date(event.start).toLocaleString();
     return (
         <section className="create grid lg:grid-cols-3 gap-2 mt-4">
             <section className="bg-white rounded-md border-2 px-4 py-2 col-span-2">
@@ -345,32 +379,66 @@ const EventCreateForm = () => {
                         </Button>
                     ))}
                     <Button
-                        onClick={() => {}}
+                        onClick={() =>
+                            setBlock(event.blocks.length, {
+                                title: "New Tab",
+                                description: "",
+                            })
+                        }
                         color="none"
                         className="px-4 mb-2"
                     >
                         <PlusIcon className="text-orange w-6 h-6" />
                     </Button>
                 </nav>
-                <div>
-                    <label className="font-bold mb-4 w-full">
-                        <p>Tab Name</p>
-                        <input
-                            type="text"
-                            value={event.blocks[blockIndex].title}
-                            onChange={(e) =>
-                                setBlock(blockIndex, {
-                                    title: e.target.value,
-                                })
-                            }
-                            className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
-                        />
-                    </label>
-                    <div className="mt-4">
-                        <p className="font-bold mt-4">Tab Content</p>
-                        <ContentBlockEditor state={editorState} setState={setEditorState}/>
+                {event.blocks.length > 0 && (
+                    <div>
+                        <label className="font-bold mb-4 w-full">
+                            <p>Tab Name</p>
+                            <input
+                                type="text"
+                                value={event.blocks[blockIndex].title}
+                                onChange={(e) =>
+                                    setBlock(blockIndex, {
+                                        title: e.target.value,
+                                    })
+                                }
+                                className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
+                            />
+                        </label>
+                        {blockIndex > 0 && (
+                            <details className="mt-4 border-2 border-b-0 rounded-md pt-2">
+                                <summary className="border-b-2 pb-2 px-2 text-blood pl-4">
+                                    Delete Tab
+                                </summary>
+                                <div className="border-b-2 p-2">
+                                    <p>
+                                        By clicking delete below, you will{" "}
+                                        <span className="font-bold">
+                                            permanently
+                                        </span>{" "}
+                                        remove all of the tabs contents. This
+                                        action cannot be undone.
+                                    </p>
+                                    <Button
+                                        color="none"
+                                        className="m-2 mt-4 py-1.5 px-4 bg-blood text-white"
+                                        onClick={() => removeIndex(blockIndex)}
+                                    >
+                                        Delete
+                                    </Button>
+                                </div>
+                            </details>
+                        )}
+                        <div className="mt-4">
+                            <p className="font-bold mt-4">Tab Content</p>
+                            <ContentBlockEditor
+                                state={editorState}
+                                setState={setEditorState}
+                            />
+                        </div>
                     </div>
-                </div>
+                )}
             </section>
         </section>
     );
