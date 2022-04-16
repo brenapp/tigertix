@@ -1,8 +1,20 @@
-import { ContentBlock, Editor, EditorState, getDefaultKeyBinding, RichUtils } from "draft-js";
+import {
+    ContentBlock,
+    Editor,
+    EditorState,
+    getDefaultKeyBinding,
+    RichUtils,
+    EditorProps,
+} from "draft-js";
 import { Dispatch, SetStateAction, useCallback, useRef, useState } from "react";
 import Button from "./button";
 
-const ContentBlockEditor: React.FC<{ state: EditorState, setState: Dispatch<SetStateAction<EditorState>> }> = ({ state: editorState, setState: setEditorState }) => {
+const ContentBlockEditor: React.FC<
+    {
+        state: EditorState;
+        setState: Dispatch<SetStateAction<EditorState>>;
+    } & Partial<EditorProps>
+> = ({ state: editorState, setState: setEditorState, ...props }) => {
     const editor = useRef<Editor>(null);
     const [focused, setFocused] = useState(false);
 
@@ -159,6 +171,7 @@ const ContentBlockEditor: React.FC<{ state: EditorState, setState: Dispatch<SetS
                     blockStyleFn={getBlockStyle}
                     placeholder="Enter the information for this content block here..."
                     ref={editor}
+                    {...props}
                 />
             </div>
         </div>
