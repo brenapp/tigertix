@@ -232,6 +232,15 @@ const EventCreateForm = () => {
     }
 
     const [event, setEvent] = useState<Event>(start);
+    function setBlock(
+        index: number,
+        block: { title?: string; description?: string }
+    ) {
+        setEvent(event => {
+            event.blocks[index] = { ...event.blocks[index], ...block };
+            return event;
+        });
+    }
     const dateString = new Date(event.start).toLocaleString();
 
     // Save the current event data to session storage
@@ -500,11 +509,13 @@ const EventCreateForm = () => {
                 <div>
                     <label className="font-bold mb-4 w-full">
                         <p>Tab Name</p>
-                        <input
-                            placeholder="24 Wallaby Way, Sydney"
-                            type="text"
+                        <input                            type="text"
                             value={event.blocks[blockIndex].title}
-                            onChange={(e) => {}}
+                            onChange={(e) =>
+                                setBlock(blockIndex, {
+                                    title: e.target.value,
+                                })
+                            }
                             className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
                         />
                     </label>
@@ -541,6 +552,7 @@ const EventCreate: NextPage = () => {
     );
 };
 
-export default EventCreate;
+const AuthenticatedEventCreate = withPageAuthRequired(EventCreate);
+export default AuthenticatedEventCreate;
 
 export const getServerSideProps = withPageAuthRequired();
