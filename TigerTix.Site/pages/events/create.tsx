@@ -23,6 +23,7 @@ import {
     RichUtils,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
+import ContentBlockEditor from "../../components/contentBlockEditor";
 
 const EventCreatePrecursor = ({ onClick }: { onClick: () => void }) => {
     const { user } = useUser();
@@ -34,9 +35,9 @@ const EventCreatePrecursor = ({ onClick }: { onClick: () => void }) => {
             <h1 className="text-2xl">Create An Event</h1>
             <p className="mt-2">
                 To get started, we will ask you some details about your event.
-                Once you have the event posted, you can view or manage it on the
-                admin page. Additionally, you will be able to download a list of
-                registrations for your own purposes.
+                Your name and email will be associated with this event. Once you
+                have the event posted, you will be able to view and manage it
+                from your account.
             </p>
             <div className="mt-4">
                 <h2 className="text-lg text-orange italic">
@@ -61,170 +62,6 @@ const EventCreatePrecursor = ({ onClick }: { onClick: () => void }) => {
     );
 };
 
-const ContentBlockEditor = () => {
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());
-    const editor = useRef<Editor>(null);
-    const [focused, setFocused] = useState(false);
-
-    function handleKeyCommand<A, B>(command: string, editorState: EditorState) {
-        const newState = RichUtils.handleKeyCommand(editorState, command);
-        if (newState) {
-            setEditorState(newState);
-            return "handled";
-        }
-        return "not-handled";
-    }
-
-    const mapKeyToEditorCommand = useCallback(
-        (e) => {
-            switch (e.keyCode) {
-                case 9: // TAB
-                    const newEditorState = RichUtils.onTab(
-                        e,
-                        editorState,
-                        4 /* maxDepth */
-                    );
-                    if (newEditorState !== editorState) {
-                        setEditorState(newEditorState);
-                    }
-                    return null;
-            }
-            return getDefaultKeyBinding(e);
-        },
-        [editorState, setEditorState]
-    );
-
-    const EditorButton: React.FC<{
-        selected: boolean;
-        onSelect: () => void;
-        className?: string;
-    }> = ({ children, selected, onSelect, className }) => {
-        return (
-            <Button
-                onMouseDown={(e) => {
-                    e.preventDefault();
-                    onSelect();
-                }}
-                className={
-                    `font-serif px-2 border-2 mr-2 ${className} ` +
-                    (selected ? " border-orange" : "")
-                }
-                color="none"
-            >
-                {children}
-            </Button>
-        );
-    };
-
-    const BLOCK_TYPES = [
-        { label: "H1", style: "header-one" },
-        { label: "H2", style: "header-two" },
-        { label: "H3", style: "header-three" },
-        { label: "H4", style: "header-four" },
-        { label: "H5", style: "header-five" },
-        { label: "H6", style: "header-six" },
-        { label: "Blockquote", style: "blockquote" },
-        { label: "UL", style: "unordered-list-item" },
-        { label: "OL", style: "ordered-list-item" },
-    ];
-
-    function getBlockStyle(block: ContentBlock) {
-        switch (block.getType()) {
-            case "header-one":
-                return "text-2xl text-orange";
-            case "header-two":
-                return "text-2xl italic";
-            case "header-three":
-                return "text-2xl";
-            case "header-four":
-                return "text-xl";
-            case "header-five":
-                return "text-lg";
-            case "header-six":
-                return "text-md";
-            case "blockquote":
-                return "border-l-2 p-2 border-gray-500 bg-gray-200";
-            default:
-                return "";
-        }
-    }
-
-    const INLINE_STYLES = [
-        { label: "B", style: "BOLD" },
-        { label: "I", style: "ITALIC" },
-        { label: "U", style: "UNDERLINE" },
-    ];
-
-    const selection = editorState.getSelection();
-    const inlineStyle = editorState.getCurrentInlineStyle();
-    const blockType = editorState
-        .getCurrentContent()
-        .getBlockForKey(selection.getStartKey())
-        .getType();
-
-    return (
-        <div className="mb-4">
-            <nav className="p-2 border-2 rounded-md hover:shadow-sm flex flex-wrap">
-                {INLINE_STYLES.map((type) => (
-                    <EditorButton
-                        key={type.style}
-                        selected={inlineStyle.contains(type.style)}
-                        onSelect={() =>
-                            setEditorState(
-                                RichUtils.toggleInlineStyle(
-                                    editorState,
-                                    type.style
-                                )
-                            )
-                        }
-                    >
-                        {type.label}
-                    </EditorButton>
-                ))}
-                <div className="border-r-2 border-b-gray-500 h-8 mr-2"></div>
-                {BLOCK_TYPES.map((type) => (
-                    <EditorButton
-                        key={type.style}
-                        selected={blockType == type.style}
-                        onSelect={() =>
-                            setEditorState(
-                                RichUtils.toggleBlockType(
-                                    editorState,
-                                    type.style
-                                )
-                            )
-                        }
-                        className="font-sans"
-                    >
-                        {type.label}
-                    </EditorButton>
-                ))}
-            </nav>
-            <div
-                onClick={() => editor.current?.focus()}
-                className={
-                    "mt-2 border-2 rounded-md p-2 " +
-                    (focused ? "border-orange" : "")
-                }
-            >
-                <Editor
-                    editorState={editorState}
-                    onChange={setEditorState}
-                    spellCheck={true}
-                    stripPastedStyles={true}
-                    handleKeyCommand={handleKeyCommand}
-                    onFocus={() => setFocused(true)}
-                    onBlur={() => setFocused(false)}
-                    keyBindingFn={mapKeyToEditorCommand}
-                    blockStyleFn={getBlockStyle}
-                    placeholder="Enter the information for this content block here..."
-                    ref={editor}
-                />
-            </div>
-        </div>
-    );
-};
-
 const EventCreateForm = () => {
     let start = shim;
     if (sessionStorage.getItem("event") !== null) {
@@ -232,14 +69,21 @@ const EventCreateForm = () => {
     }
 
     const [event, setEvent] = useState<Event>(start);
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
     function setBlock(
         index: number,
         block: { title?: string; description?: string }
     ) {
-        setEvent(event => {
-            event.blocks[index] = { ...event.blocks[index], ...block };
-            return event;
-        });
+        // NOTE: I hate everything about this 
+        setEvent((event) => ({
+            ...event,
+            blocks: [
+                ...event.blocks.slice(0, index),
+                {...event.blocks[index], ...block},
+                ...event.blocks.slice(index + 1),
+            ]
+        }));
     }
     const dateString = new Date(event.start).toLocaleString();
 
@@ -247,6 +91,8 @@ const EventCreateForm = () => {
     useEffect(() => {
         sessionStorage.setItem("event", JSON.stringify(event));
     }, [event]);
+
+    
 
     const [blockIndex, setBlockIndex] = useState(0);
 
@@ -509,7 +355,8 @@ const EventCreateForm = () => {
                 <div>
                     <label className="font-bold mb-4 w-full">
                         <p>Tab Name</p>
-                        <input                            type="text"
+                        <input
+                            type="text"
                             value={event.blocks[blockIndex].title}
                             onChange={(e) =>
                                 setBlock(blockIndex, {
@@ -521,7 +368,7 @@ const EventCreateForm = () => {
                     </label>
                     <div className="mt-4">
                         <p className="font-bold mt-4">Tab Content</p>
-                        <ContentBlockEditor />
+                        <ContentBlockEditor state={editorState} setState={setEditorState}/>
                     </div>
                 </div>
             </section>
