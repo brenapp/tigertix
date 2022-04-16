@@ -414,11 +414,11 @@ const EventCreateForm = () => {
                         />
                     </label>
                     {blockIndex > 0 && (
-                        <details className="mt-4 border-2 border-b-0 rounded-md pt-2">
-                            <summary className="border-b-2 pb-2 px-2 text-blood pl-4">
+                        <details className="mt-4 border-2 border-b-0 rounded-md pt-2 hover:border-blood group">
+                            <summary className="border-b-2 group-hover:border-blood pb-2 px-2 text-blood pl-4 cursor-pointer">
                                 Delete Tab
                             </summary>
-                            <div className="border-b-2 p-2">
+                            <div className="border-b-2 p-2 group-hover:border-blood">
                                 <p>
                                     By clicking delete below, you will{" "}
                                     <span className="font-bold">
@@ -469,7 +469,7 @@ const EventCreateForm = () => {
         </>,
         <>
             <ContentBlocksForm />
-            <ContentBlocksPreview />
+            {/* <ContentBlocksPreview /> */}
         </>,
     ];
 
