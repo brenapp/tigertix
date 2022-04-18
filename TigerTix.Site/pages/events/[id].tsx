@@ -24,6 +24,7 @@ const EventPage: NextPage<{ event: Event }> = ({ event }) => {
                             height={500}
                             width={1500}
                             className="md:rounded-md"
+                            alt={event.description}
                         />
                         <nav className="quick-actions absolute top-4 right-4 bg-white rounded-md shadow-lg">
                             <Button

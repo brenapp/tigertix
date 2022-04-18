@@ -116,7 +116,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
                     props.className
                 }
             >
-                <Link href={"/"}>
+                <Link href={"/"} passHref>
                     <h1 className="text-4xl italic bold text-white text-opacity-90 pl-6 cursor-pointer">
                         TigerTix
                     </h1>

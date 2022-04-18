@@ -15,6 +15,7 @@ const EventPreview: React.FC<{ event: Event, className?: string }> = ({ event, c
                     height={400}
                     width={400}
                     className="rounded-md"
+                    alt={event.description}
                 />
             </div>
             <div>

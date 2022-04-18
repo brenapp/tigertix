@@ -2,7 +2,6 @@ import type { NextPage } from "next";
 import { Header, Container, Button } from "../../components";
 import { Event, shim } from "../../services/events";
 import {
-    ArrowLeftIcon,
     ArrowRightIcon,
     BeakerIcon,
     CalendarIcon,
@@ -88,7 +87,7 @@ const EventCreateForm = () => {
             description: JSON.stringify(raw),
         });
         sessionStorage.setItem("event", JSON.stringify(event));
-    }, [editorState]);
+    });
 
     // Change content block state when you switch tabs
     useEffect(() => {
@@ -101,7 +100,7 @@ const EventCreateForm = () => {
                     : ContentState.createFromText("")
             )
         );
-    }, [blockIndex]);
+    }, [event.blocks, blockIndex]);
 
     function setBlock(
         index: number,
@@ -452,7 +451,7 @@ const EventCreateForm = () => {
                     {event.blocks.map((event, i) => (
                         <a
                             href="#"
-                            key={event.title    }
+                            key={event.title}
                             onClick={(e) => {
                                 e.preventDefault();
                                 setBlockIndex(i);
@@ -481,14 +480,21 @@ const EventCreateForm = () => {
                 <EventPreview />
             </>,
         ],
-        ["Content Blocks", <ContentBlockForm />],
+        [
+            "Content Blocks",
+            <>
+                <ContentBlockForm />
+            </>,
+        ],
         [
             "Review",
             <>
                 <EventPreview />
                 <ContentBlockPreview />
                 <div className="flex col-span-3 justify-center mt-8">
-                    <Button color="primary" className="p-2 px-6">Publish Event!</Button>
+                    <Button color="primary" className="p-2 px-6">
+                        Publish Event!
+                    </Button>
                 </div>
             </>,
         ],
