@@ -21,7 +21,9 @@ import {
     EditorState,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
-import ContentBlockEditor, { ContentBlockDisplay } from "../../components/contentBlockEditor";
+import ContentBlockEditor, {
+    ContentBlockDisplay,
+} from "../../components/contentBlockEditor";
 
 const EventCreatePrecursor = ({ onClick }: { onClick: () => void }) => {
     const { user } = useUser();
@@ -129,165 +131,163 @@ const EventCreateForm = () => {
         sessionStorage.setItem("event", JSON.stringify(event));
     }, [event]);
 
-    const dateString = new Date(event.start).toLocaleString();
-    return (
-        <section className="create grid lg:grid-cols-3 gap-2 mt-4">
-            <section className="bg-white rounded-md border-2 px-4 py-2 col-span-2">
-                <h2 className="text-orange text-lg italic">Basic Details</h2>
+    const BasicDetailsForm = () => (
+        <section className="bg-white rounded-md border-2 px-4 py-2 col-span-2">
+            <h2 className="text-orange text-lg italic">Basic Details</h2>
 
-                <div className="form-group grid lg:grid-cols-3 lg:gap-2 col-span-2">
-                    <label className="font-bold mb-4 w-full">
-                        <p>Event Name</p>
-                        <input
-                            placeholder="Event Name..."
-                            type="text"
-                            value={event.title}
-                            onChange={(e) =>
-                                setEvent((prev) => ({
-                                    ...prev,
-                                    title: e.target.value,
-                                }))
-                            }
-                            className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
-                        />
-                    </label>
-                    <label className="font-bold mb-4 w-full">
-                        <p>Start</p>
-                        <input
-                            placeholder="Start"
-                            type="datetime-local"
-                            value={event.start}
-                            onChange={(e) =>
-                                setEvent((prev) => ({
-                                    ...prev,
-                                    start: e.target.value,
-                                }))
-                            }
-                            className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
-                        />
-                    </label>
-                    <label className="font-bold mb-4 w-full">
-                        <p>End</p>
-                        <input
-                            placeholder="End"
-                            type="datetime-local"
-                            value={event.end}
-                            onChange={(e) =>
-                                setEvent((prev) => ({
-                                    ...prev,
-                                    end: e.target.value,
-                                }))
-                            }
-                            className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
-                        />
-                    </label>
-                </div>
+            <div className="form-group grid lg:grid-cols-3 lg:gap-2 col-span-2">
+                <label className="font-bold mb-4 w-full">
+                    <p>Event Name</p>
+                    <input
+                        placeholder="Event Name..."
+                        type="text"
+                        value={event.title}
+                        onChange={(e) =>
+                            setEvent((prev) => ({
+                                ...prev,
+                                title: e.target.value,
+                            }))
+                        }
+                        className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
+                    />
+                </label>
+                <label className="font-bold mb-4 w-full">
+                    <p>Start</p>
+                    <input
+                        placeholder="Start"
+                        type="datetime-local"
+                        value={event.start}
+                        onChange={(e) =>
+                            setEvent((prev) => ({
+                                ...prev,
+                                start: e.target.value,
+                            }))
+                        }
+                        className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
+                    />
+                </label>
+                <label className="font-bold mb-4 w-full">
+                    <p>End</p>
+                    <input
+                        placeholder="End"
+                        type="datetime-local"
+                        value={event.end}
+                        onChange={(e) =>
+                            setEvent((prev) => ({
+                                ...prev,
+                                end: e.target.value,
+                            }))
+                        }
+                        className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
+                    />
+                </label>
+            </div>
 
-                <div className="form-group grid lg:grid-cols-3 lg:gap-2 col-span-2">
-                    <label className="font-bold mb-4 w-full">
-                        <p>Venue</p>
-                        <select
-                            placeholder="Venue"
-                            style={{ height: 40 }}
-                            className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
-                        >
-                            <option value="hsc">Hendrix Student Center</option>
-                            <option value="hsc">Barnes Center</option>
-                            <option value="hsc">Littlejohn Coliseum</option>
-                        </select>
-                    </label>
-                    <label className="font-bold mb-4 w-full">
-                        <p>Venue Description</p>
-                        <input
-                            placeholder="Hendrix 2nd Floor"
-                            type="text"
-                            value={event.venue_description}
-                            onChange={(e) =>
-                                setEvent((prev) => ({
-                                    ...prev,
-                                    venue_description: e.target.value,
-                                }))
-                            }
-                            className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
-                        />
-                    </label>
-                    <label className="font-bold mb-4 w-full">
-                        <p>Address</p>
-                        <input
-                            placeholder="24 Wallaby Way, Sydney"
-                            type="text"
-                            value={event.venue_address}
-                            onChange={(e) =>
-                                setEvent((prev) => ({
-                                    ...prev,
-                                    venue_address: e.target.value,
-                                }))
-                            }
-                            className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
-                        />
-                    </label>
-                </div>
-                <div className="form-group grid lg:grid-cols-3 lg:gap-2 col-span-2">
-                    <label className="font-bold mb-4 w-full">
-                        <p>Registration Price</p>
-                        <CurrencyInput
-                            placeholder="5.00"
-                            // prefix="$"
-                            value={event.registration_price || 0}
-                            onChange={(e) =>
-                                setEvent((prev) => ({
-                                    ...prev,
-                                    registration_price: Number.parseFloat(
-                                        e.target.value
-                                    ),
-                                }))
-                            }
-                            className=" w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
-                        />
-                    </label>
-                    <label className="font-bold mb-4 w-full">
-                        <p>Capacity</p>
-                        <input
-                            placeholder="100 spots"
-                            type="number"
-                            value={event.capacity_total}
-                            onChange={(e) =>
-                                setEvent((prev) => ({
-                                    ...prev,
-                                    capacity_total: Number.parseInt(
-                                        e.target.value
-                                    ),
-                                    capacity_remaining: Number.parseInt(
-                                        e.target.value
-                                    ),
-                                }))
-                            }
-                            className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
-                        />
-                    </label>
-                </div>
-                <div className="form-group grid lg:grid-cols-3 lg:gap-2 col-span-2">
-                    <label className="font-bold mb-4 w-full col-span-2">
-                        <p>Event Description</p>
-                        <textarea
-                            value={event.description}
-                            onChange={(e) =>
-                                setEvent((prev) => ({
-                                    ...prev,
-                                    description: e.target.value,
-                                }))
-                            }
-                            className="border-2 rounded-md w-full h-24 p-2 outline-orange"
-                        ></textarea>
-                    </label>
-                    <p className="lg:mt-6 ml-2 italic text-sm">
-                        The event description should be a brief, one-sentence
-                        overview of your event. You can enter more information
-                        in the content blocks below.{" "}
-                    </p>
-                </div>
-            </section>
-            <section className="preview lg:col-span-1 col-span-2">
+            <div className="form-group grid lg:grid-cols-3 lg:gap-2 col-span-2">
+                <label className="font-bold mb-4 w-full">
+                    <p>Venue</p>
+                    <select
+                        placeholder="Venue"
+                        style={{ height: 40 }}
+                        className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
+                    >
+                        <option value="hsc">Hendrix Student Center</option>
+                        <option value="hsc">Barnes Center</option>
+                        <option value="hsc">Littlejohn Coliseum</option>
+                    </select>
+                </label>
+                <label className="font-bold mb-4 w-full">
+                    <p>Venue Description</p>
+                    <input
+                        placeholder="Hendrix 2nd Floor"
+                        type="text"
+                        value={event.venue_description}
+                        onChange={(e) =>
+                            setEvent((prev) => ({
+                                ...prev,
+                                venue_description: e.target.value,
+                            }))
+                        }
+                        className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
+                    />
+                </label>
+                <label className="font-bold mb-4 w-full">
+                    <p>Address</p>
+                    <input
+                        placeholder="24 Wallaby Way, Sydney"
+                        type="text"
+                        value={event.venue_address}
+                        onChange={(e) =>
+                            setEvent((prev) => ({
+                                ...prev,
+                                venue_address: e.target.value,
+                            }))
+                        }
+                        className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
+                    />
+                </label>
+            </div>
+            <div className="form-group grid lg:grid-cols-3 lg:gap-2 col-span-2">
+                <label className="font-bold mb-4 w-full">
+                    <p>Registration Price</p>
+                    <CurrencyInput
+                        placeholder="5.00"
+                        // prefix="$"
+                        value={event.registration_price || 0}
+                        onChange={(e) =>
+                            setEvent((prev) => ({
+                                ...prev,
+                                registration_price: Number.parseFloat(
+                                    e.target.value
+                                ),
+                            }))
+                        }
+                        className=" w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
+                    />
+                </label>
+                <label className="font-bold mb-4 w-full">
+                    <p>Capacity</p>
+                    <input
+                        placeholder="100 spots"
+                        type="number"
+                        value={event.capacity_total}
+                        onChange={(e) =>
+                            setEvent((prev) => ({
+                                ...prev,
+                                capacity_total: Number.parseInt(e.target.value),
+                                capacity_remaining: Number.parseInt(
+                                    e.target.value
+                                ),
+                            }))
+                        }
+                        className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
+                    />
+                </label>
+            </div>
+            <div className="form-group grid lg:grid-cols-3 lg:gap-2 col-span-2">
+                <label className="font-bold mb-4 w-full col-span-2">
+                    <p>Event Description</p>
+                    <textarea
+                        value={event.description}
+                        onChange={(e) =>
+                            setEvent((prev) => ({
+                                ...prev,
+                                description: e.target.value,
+                            }))
+                        }
+                        className="border-2 rounded-md w-full h-24 p-2 outline-orange"
+                    ></textarea>
+                </label>
+                <p className="lg:mt-6 ml-2 italic text-sm">
+                    The event description should be a brief, one-sentence
+                    overview of your event. You can enter more information in
+                    the content blocks below.{" "}
+                </p>
+            </div>
+        </section>
+    );
+    const EventPreview = () => (
+        <section className="preview lg:col-span-1 col-span-2">
                 <section className="grid grid-cols-1">
                     <section className="image relative mx-auto w-full h-full rounded-md">
                         <Image
@@ -357,98 +357,109 @@ const EventCreateForm = () => {
                     </section>
                 </section>
             </section>
-            <section className="bg-white rounded-md border-2 px-4 py-2 col-span-2">
-                <h2 className="text-orange text-lg italic">Content Blocks</h2>
-                <p>
-                    Use content blocks to add more details about your event,
-                    including policies, safety information, payment information,
-                    and more.
-                </p>
-                <nav className="blocks flex flex-wrap pt-4">
-                    {event.blocks.map((block, index) => (
-                        <Button
-                            key={block.title}
-                            onClick={() => setBlockIndex(index)}
-                            color={index == blockIndex ? "primary" : "none"}
-                            className={
-                                "px-6 py-1.5 border-2 mr-2 mb-2 " +
-                                (index == blockIndex ? "border-orange" : "")
-                            }
-                        >
-                            {block.title}
-                        </Button>
-                    ))}
+    )
+    const ContentBlockForm = () => (
+        <section className="bg-white rounded-md border-2 px-4 py-2 col-span-2">
+            <h2 className="text-orange text-lg italic">Content Blocks</h2>
+            <p>
+                Use content blocks to add more details about your event,
+                including policies, safety information, payment information, and
+                more.
+            </p>
+            <nav className="blocks flex flex-wrap pt-4">
+                {event.blocks.map((block, index) => (
                     <Button
-                        onClick={() => {
-                            setBlock(event.blocks.length, {
-                                title: "New Tab",
-                                description: "",
-                            });
-                            setBlockIndex(event.blocks.length);
-                        }}
-                        color="none"
-                        className="px-4 mb-2"
+                        key={block.title}
+                        onClick={() => setBlockIndex(index)}
+                        color={index == blockIndex ? "primary" : "none"}
+                        className={
+                            "px-6 py-1.5 border-2 mr-2 mb-2 " +
+                            (index == blockIndex ? "border-orange" : "")
+                        }
                     >
-                        <PlusIcon className="text-orange w-6 h-6" />
+                        {block.title}
                     </Button>
-                </nav>
-                {event.blocks.length > 0 && (
-                    <div>
-                        <label className="font-bold mb-4 w-full">
-                            <p>Tab Name</p>
-                            <input
-                                type="text"
-                                value={event.blocks[blockIndex].title}
-                                onChange={(e) =>
-                                    setBlock(blockIndex, {
-                                        title: e.target.value,
-                                    })
-                                }
-                                className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
-                            />
-                        </label>
-                        {blockIndex > 0 && (
-                            <details className="mt-4 border-2 border-b-0 rounded-md pt-2">
-                                <summary className="border-b-2 pb-2 px-2 text-blood pl-4">
-                                    Delete Tab
-                                </summary>
-                                <div className="border-b-2 p-2">
-                                    <p>
-                                        By clicking delete below, you will{" "}
-                                        <span className="font-bold">
-                                            permanently
-                                        </span>{" "}
-                                        remove all of the tabs contents. This
-                                        action cannot be undone.
-                                    </p>
-                                    <Button
-                                        color="none"
-                                        className="m-2 mt-4 py-1.5 px-4 bg-blood text-white"
-                                        onClick={() => removeIndex(blockIndex)}
-                                    >
-                                        Delete
-                                    </Button>
-                                </div>
-                            </details>
-                        )}
-                        <div className="mt-4">
-                            <p className="font-bold mt-4">Tab Content</p>
-                            <ContentBlockEditor
-                                state={editorState}
-                                setState={setEditorState}
-                            />
-                        </div>
-                    </div>
-                )}
-            </section>
-            <section className="bg-white rounded-md border-2 px-4 py-2 col-span-1">
-                <h1 className="text-lg pt-2 text-orange">{event.blocks[blockIndex].title} <span className="text-sm italic text-gray-700">(Preview)</span></h1>
+                ))}
+                <Button
+                    onClick={() => {
+                        setBlock(event.blocks.length, {
+                            title: "New Tab",
+                            description: "",
+                        });
+                        setBlockIndex(event.blocks.length);
+                    }}
+                    color="none"
+                    className="px-4 mb-2"
+                >
+                    <PlusIcon className="text-orange w-6 h-6" />
+                </Button>
+            </nav>
+            {event.blocks.length > 0 && (
                 <div>
-                <ContentBlockDisplay
-                    state={editorState}
-                    />
+                    <label className="font-bold mb-4 w-full">
+                        <p>Tab Name</p>
+                        <input
+                            type="text"
+                            value={event.blocks[blockIndex].title}
+                            onChange={(e) =>
+                                setBlock(blockIndex, {
+                                    title: e.target.value,
+                                })
+                            }
+                            className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border-2 border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-orange hover:border-gray-200 focus:outline-none"
+                        />
+                    </label>
+                    {blockIndex > 0 && (
+                        <details className="mt-4 border-2 border-b-0 rounded-md pt-2">
+                            <summary className="border-b-2 pb-2 px-2 text-blood pl-4">
+                                Delete Tab
+                            </summary>
+                            <div className="border-b-2 p-2">
+                                <p>
+                                    By clicking delete below, you will{" "}
+                                    <span className="font-bold">
+                                        permanently
+                                    </span>{" "}
+                                    remove all of the tabs contents. This action
+                                    cannot be undone.
+                                </p>
+                                <Button
+                                    color="none"
+                                    className="m-2 mt-4 py-1.5 px-4 bg-blood text-white"
+                                    onClick={() => removeIndex(blockIndex)}
+                                >
+                                    Delete
+                                </Button>
+                            </div>
+                        </details>
+                    )}
+                    <div className="mt-4">
+                        <p className="font-bold mt-4">Tab Content</p>
+                        <ContentBlockEditor
+                            state={editorState}
+                            setState={setEditorState}
+                        />
+                    </div>
                 </div>
-            </section>
+            )}
+        </section>
+    );
+
+    const pages = [
+        <>
+            <BasicDetailsForm />
+            <EventPreview />
+        </>,
+        <ContentBlockForm />
+    ];
+    const [page, setPage] = useState(0);
+
+    const dateString = new Date(event.start).toLocaleString();
+    return (
+        <section className="create grid lg:grid-cols-3 gap-2 mt-4">
+            <BasicDetailsForm />
+            <EventPreview />
+            <ContentBlockForm />
         </section>
     );
 };
