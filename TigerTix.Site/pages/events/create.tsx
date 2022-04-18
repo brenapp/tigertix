@@ -452,7 +452,7 @@ const EventCreateForm = () => {
                     {event.blocks.map((event, i) => (
                         <a
                             href="#"
-                            key={event.title    }
+                            key={event.title}
                             onClick={(e) => {
                                 e.preventDefault();
                                 setBlockIndex(i);
@@ -481,14 +481,21 @@ const EventCreateForm = () => {
                 <EventPreview />
             </>,
         ],
-        ["Content Blocks", <ContentBlockForm />],
+        [
+            "Content Blocks",
+            <>
+                <ContentBlockForm />
+            </>,
+        ],
         [
             "Review",
             <>
                 <EventPreview />
                 <ContentBlockPreview />
                 <div className="flex col-span-3 justify-center mt-8">
-                    <Button color="primary" className="p-2 px-6">Publish Event!</Button>
+                    <Button color="primary" className="p-2 px-6">
+                        Publish Event!
+                    </Button>
                 </div>
             </>,
         ],
