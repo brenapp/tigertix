@@ -130,7 +130,10 @@ const EventCreateForm = () => {
         }));
     }
 
-    const dateString = new Date(event.start).toLocaleString();
+    // Save the current event data to session storage
+    useEffect(() => {
+        sessionStorage.setItem("event", JSON.stringify(event));
+    }, [event]);
 
     const BasicDetailsForm = () => (
         <section className="bg-white rounded-md border-2 px-4 py-2 col-span-2">
@@ -287,80 +290,83 @@ const EventCreateForm = () => {
             </div>
         </section>
     );
-    const BasicDetailsPreview = () => (
+    const EventPreview = () => (
         <section className="preview lg:col-span-1 col-span-2">
-            <section className="grid grid-cols-1">
-                <section className="image relative mx-auto w-full h-full rounded-md">
-                    <Image
-                        alt={event.description}
-                        src={event.image_hero}
-                        height={500}
-                        width={1500}
-                        className="rounded-md"
-                    />
-                    <nav className="quick-actions absolute top-4 right-4 bg-white rounded-md shadow-lg">
-                        <Button
-                            color="none"
-                            onClick={() => {}}
-                            className="flex items-center p-2"
-                        >
-                            <BeakerIcon className="h-5 w-5 text-gray-700 mr-2" />
-                            Event Preview
-                        </Button>
-                    </nav>
-                </section>
-                <section className="info bg-white rounded-md border-2 p-4 md:m-0 m-2">
-                    <h2 className="text-2xl font-bold text-gray-700">
-                        {event.title}
-                    </h2>
-                    <p className="pt-2">{event.description}</p>
-                    <div className="flex mt-4 mx-1">
-                        <CalendarIcon className="h-6 w-6" />
-                        <span className="pl-2">
-                            <p>{dateString}</p>
-                        </span>
-                    </div>
-                    <div className="flex mt-4 mx-1 items-center">
-                        <LocationMarkerIcon className="h-6 w-6" />
-                        <span className="pl-2">
-                            <p className="leading-tight italic">
-                                {event.venue_description}
-                            </p>
-                            <p className="leading-tight">
-                                {event.venue_address}
-                            </p>
-                        </span>
-                    </div>
-                    <div className="flex mt-4 mx-1 items-center">
-                        <GlobeAltIcon className="h-6 w-6" />
-                        <span className="pl-2">
-                            <p>{event.capacity_remaining} tickets remain</p>
-                        </span>
-                    </div>
-                    <div className="flex mt-4 mx-1 items-center">
-                        <CurrencyDollarIcon className="h-6 w-6" />
-                        <span className="pl-2">
-                            <p>
-                                ${event.registration_price.toFixed(2)} per
-                                ticket
-                            </p>
-                        </span>
-                    </div>
-                    <div className="w-full mt-4 mx-2">
-                        <Button
-                            color="primary"
-                            className="p-2 px-6 mt-2"
-                            onClick={() => {}}
-                        >
-                            Register
-                        </Button>
-                    </div>
+                <section className="grid grid-cols-1">
+                    <section className="image relative mx-auto w-full h-full rounded-md">
+                        <Image
+                            alt={event.description}
+                            src={event.image_hero}
+                            height={500}
+                            width={1500}
+                            className="rounded-md"
+                        />
+                        <nav className="quick-actions absolute top-4 right-4 bg-white rounded-md shadow-lg">
+                            <Button
+                                color="none"
+                                onClick={() => {}}
+                                className="flex items-center p-2"
+                            >
+                                <BeakerIcon className="h-5 w-5 text-gray-700 mr-2" />
+                                Event Preview
+                            </Button>
+                        </nav>
+                    </section>
+                    <section className="info bg-white rounded-md border-2 p-4 md:m-0 m-2">
+                        <h2 className="text-2xl font-bold text-gray-700">
+                            {event.title}
+                        </h2>
+                        <p className="pt-2">{event.description}</p>
+                        <div className="flex mt-4 mx-1">
+                            <CalendarIcon className="h-6 w-6" />
+                            <span className="pl-2">
+                                <p>{dateString}</p>
+                            </span>
+                        </div>
+                        <div className="flex mt-4 mx-1 items-center">
+                            <LocationMarkerIcon className="h-6 w-6" />
+                            <span className="pl-2">
+                                <p className="leading-tight italic">
+                                    {event.venue_description}
+                                </p>
+                                <p className="leading-tight">
+                                    {event.venue_address}
+                                </p>
+                            </span>
+                        </div>
+                        <div className="flex mt-4 mx-1 items-center">
+                            <GlobeAltIcon className="h-6 w-6" />
+                            <span className="pl-2">
+                                <p>{event.capacity_remaining} tickets remain</p>
+                            </span>
+                        </div>
+                        <div className="flex mt-4 mx-1 items-center">
+                            <CurrencyDollarIcon className="h-6 w-6" />
+                            <span className="pl-2">
+                                <p>
+                                    By clicking delete below, you will{" "}
+                                    <span className="font-bold">
+                                        permanently
+                                    </span>{" "}
+                                    remove all of the tabs contents. This action
+                                    cannot be undone.
+                                </p>
+                            </span>
+                        </div>
+                        <div className="w-full mt-4 mx-2">
+                            <Button
+                                color="primary"
+                                className="p-2 px-6 mt-2"
+                                onClick={() => {}}
+                            >
+                                Register
+                            </Button>
+                        </div>
+                    </section>
                 </section>
             </section>
-        </section>
-    );
-
-    const ContentBlocksForm = () => (
+    )
+    const ContentBlockForm = () => (
         <section className="bg-white rounded-md border-2 px-4 py-2 col-span-2">
             <h2 className="text-orange text-lg italic">Content Blocks</h2>
             <p>
@@ -412,11 +418,11 @@ const EventCreateForm = () => {
                         />
                     </label>
                     {blockIndex > 0 && (
-                        <details className="mt-4 border-2 border-b-0 rounded-md pt-2 hover:border-blood group">
-                            <summary className="border-b-2 group-hover:border-blood pb-2 px-2 text-blood pl-4 cursor-pointer">
+                        <details className="mt-4 border-2 border-b-0 rounded-md pt-2">
+                            <summary className="border-b-2 pb-2 px-2 text-blood pl-4">
                                 Delete Tab
                             </summary>
-                            <div className="border-b-2 p-2 group-hover:border-blood">
+                            <div className="border-b-2 p-2">
                                 <p>
                                     By clicking delete below, you will{" "}
                                     <span className="font-bold">
@@ -447,55 +453,21 @@ const EventCreateForm = () => {
         </section>
     );
 
-    const ContentBlocksPreview = () => (
-        <section className="bg-white rounded-md border-2 px-4 py-2 col-span-1">
-            <h1 className="text-lg pt-2 text-orange">
-                {event.blocks[blockIndex].title}{" "}
-                <span className="text-sm italic text-gray-700">(Preview)</span>
-            </h1>
-            <div>
-                <ContentBlockDisplay state={editorState} />
-            </div>
-        </section>
-    );
-
-    const [page, setPage] = useState(0);
     const pages = [
         <>
             <BasicDetailsForm />
-            <BasicDetailsPreview />
+            <EventPreview />
         </>,
-        <>
-            <ContentBlocksForm />
-            <ContentBlocksPreview />
-        </>,
+        <ContentBlockForm />
     ];
+    const [page, setPage] = useState(0);
 
+    const dateString = new Date(event.start).toLocaleString();
     return (
         <section className="create grid lg:grid-cols-3 gap-2 mt-4">
-            {pages[page]}
-            <nav className="flex col-span-3">
-                {page > 0 && (
-                    <Button
-                        color="primary"
-                        className="py-1.5 px-4 flex items-center"
-                        onClick={() => setPage((page) => page - 1)}
-                    >
-                        <ArrowLeftIcon className="w-4 h-4 mr-2" />
-                        Previous
-                    </Button>
-                )}
-                {page < pages.length - 1 && (
-                    <Button
-                        color="primary"
-                        className="py-1.5 px-4 flex items-center ml-auto"
-                        onClick={() => setPage((page) => page + 1)}
-                    >
-                        Next
-                        <ArrowRightIcon className="w-4 h-4 ml-2" />
-                    </Button>
-                )}
-            </nav>
+            <BasicDetailsForm />
+            <EventPreview />
+            <ContentBlockForm />
         </section>
     );
 };
