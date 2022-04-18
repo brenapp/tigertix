@@ -20,7 +20,7 @@ public class Auth0Controller {
         Console.WriteLine(response.Content);
 
         var test = response.Content.FromJson<object>();
-        Dictionary<string, object> response1 = ((Dictionary<string, object>)(test));
+        Dictionary<string, object> response1 = (Dictionary<string, object>) test;
 
         string token = (string)response1["access_token"];
         Console.WriteLine(token);

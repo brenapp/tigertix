@@ -12,6 +12,7 @@ public class TigerTixContext : DbContext {
     public DbSet<User> Users { get; set; }
     public DbSet<Show> Shows { get; set; }
     public DbSet<Venue> Venues { get; set; }
+    public DbSet<ShowAssociate> Associates { get; set; }
     public DbSet<ContentBlock> ContentBlocks { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {

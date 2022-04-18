@@ -1,13 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <EnablePreviewFeatures>true</EnablePreviewFeatures>
+        <LangVersion>preview</LangVersion>
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-      <UserSecretsId>71abdd34-8039-48fd-a32b-23d1d56bb27b</UserSecretsId>
+        <UserSecretsId>71abdd34-8039-48fd-a32b-23d1d56bb27b</UserSecretsId>
+        <RootNamespace>TigerTix.Api.Data</RootNamespace>
+        <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="IdentityModel" Version="6.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
         <PrivateAssets>all</PrivateAssets>
@@ -15,6 +20,9 @@
       </PackageReference>
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
       <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
+      <PackageReference Include="Microsoft.Owin.Security" Version="4.2.1" />
+      <PackageReference Include="Microsoft.Owin.Security.Jwt" Version="4.2.1" />
+      <PackageReference Include="Microsoft.Owin.Security.OAuth" Version="4.2.1" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.3" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" Version="6.0.3" />

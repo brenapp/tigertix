@@ -17,17 +17,17 @@ public class Show {
     public LocalDateTime Start { get; set; }
     
     public LocalDateTime End { get; set; }
+
+    public string ImageHero { get; set; } = null!;
+
+    public string ImageThumbnail { get; set; } = null!;
     
-    public string ImageHero { get; set; }
-    
-    public string ImageThumbnail { get; set; }
-    
-    public decimal EntryPrice { get; set; }
+    public double EntryPrice { get; set; }
 
     public uint Capacity { get; set; }
     
     public List<ContentBlock> ContentBlocks { get; } = new();
 
-    public List<User> Users { get; set; }
+    public List<User> Users { get; } = new();
 
 }

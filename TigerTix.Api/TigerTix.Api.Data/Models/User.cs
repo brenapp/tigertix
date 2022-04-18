@@ -1,11 +1,15 @@
-﻿using TigerTix.Api.Data.Enums;
+﻿using Microsoft.EntityFrameworkCore;
+using TigerTix.Api.Data.Enums;
 
 namespace TigerTix.Api.Data.Models; 
 
+[Index(nameof(Auth0Id), nameof(Id))]
 public class User {
 
     public ulong Id { get; set; }
 
+    public string Auth0Id { get; set; }
+    
     public string Token { get; set; }
     
     public string FirstName { get; set; }

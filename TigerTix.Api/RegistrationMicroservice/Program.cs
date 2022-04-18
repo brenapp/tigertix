@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using TigerTix.Api.Data.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,13 +11,29 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<TigerTixContext>();
+// **************** CONFIGURE DB CONN STRING **********
+builder.Host.ConfigureAppConfiguration((_, config) => {
+    config.AddUserSecrets<TigerTixContext>(false);
+    config.AddEnvironmentVariables();
+});
+
+var connStr = builder.Configuration["TigerTixConnectionString"];
+// ****************************************************
+
+// **************** CONFIGURE DB CONTEXT **************
+builder.Services.AddDbContext<TigerTixContext>(
+    options => options.UseNpgsql(connStr, optionsBuilder => optionsBuilder.UseNodaTime()));
+// ****************************************************
 
 var app = builder.Build();
 
+// **************** CONFIGURE EF CTX SCOPE ************
+using var scope = app.Services.CreateScope();
+var ctx = scope.ServiceProvider.GetRequiredService<TigerTixContext>();
+// ****************************************************
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -25,15 +43,12 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-Auth0Controller localAuth = new Auth0Controller();
 
-Task<string> token = localAuth.receiveAuth0Token();
-
-while (!token.IsCompleted) {
-    continue;
-}
-
-localAuth.runAPICall(token.Result);
-
+// **************** APPLY DB MIGRATIONS ***************
+ctx.Database.Migrate();
+using var conn = (NpgsqlConnection) ctx.Database.GetDbConnection();
+conn.Open();
+conn.ReloadTypes();
+// ****************************************************
 
 app.Run();
