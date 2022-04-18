@@ -28,7 +28,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
     const bg = {
         primary: "bg-orange hover:bg-opacity-80 active:bg-blood text-white ",
-        none: "bg-transparent hover:bg-opacity-80 active:bg-gray-200",
+        none: "hover:bg-opacity-80 active:bg-gray-200",
     };
 
     return (
