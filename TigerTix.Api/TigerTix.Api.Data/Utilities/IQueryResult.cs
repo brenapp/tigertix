@@ -8,10 +8,10 @@ public interface IQueryResult<T> : IResult<QueryStatus, T> {
 
     static abstract IQueryResult<T> Invalid(T? value);
 
-    static abstract IQueryResult<T> NotFound(T? value);
+    static abstract IQueryResult<T> NotFound();
 
-    static abstract IQueryResult<T> Conflict(T value);
+    static abstract IQueryResult<T> Conflict();
 
-    static abstract IQueryResult<T> Forbidden(T value);
+    static abstract IQueryResult<T> Forbidden();
     
 }

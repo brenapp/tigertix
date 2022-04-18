@@ -21,10 +21,10 @@ public class QueryResult<T> : IQueryResult<T> {
 
     public static IQueryResult<T> Invalid(T? value) => new QueryResult<T>(QueryStatus.Invalid, value);
 
-    public static IQueryResult<T> NotFound(T? value) => new QueryResult<T>(QueryStatus.NotFound, value);
+    public static IQueryResult<T> NotFound() => new QueryResult<T>(QueryStatus.NotFound);
 
-    public static IQueryResult<T> Conflict(T value) => new QueryResult<T>(QueryStatus.Conflict, value);
+    public static IQueryResult<T> Conflict() => new QueryResult<T>(QueryStatus.Conflict);
 
-    public static IQueryResult<T> Forbidden(T value) => new QueryResult<T>(QueryStatus.Forbidden, value);
+    public static IQueryResult<T> Forbidden() => new QueryResult<T>(QueryStatus.Forbidden);
     
 }

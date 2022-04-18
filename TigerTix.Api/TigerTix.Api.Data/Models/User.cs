@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using TigerTix.Api.Data.Enums;
 
 namespace TigerTix.Api.Data.Models; 
@@ -6,6 +8,8 @@ namespace TigerTix.Api.Data.Models;
 [Index(nameof(Auth0Id), nameof(Id))]
 public class User {
 
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public ulong Id { get; set; }
 
     public string Auth0Id { get; set; }

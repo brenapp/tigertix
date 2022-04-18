@@ -1,13 +1,15 @@
 ﻿using NodaTime;
 
-namespace EventsMicroservice.Models; 
+namespace EventsMicroservice.Models;
 
 public class ShowDto {
-    
+
     public ulong VenueId { get; set; }
-        
+
     public string Title { get; set; }
-        
+    
+    public string Description { get; set; }
+
     public LocalDateTime Start { get; set; }
         
     public LocalDateTime End { get; set; }

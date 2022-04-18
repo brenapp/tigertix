@@ -1,10 +1,13 @@
-﻿using NodaTime;
-using TigerTix.Api.Data.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using NodaTime;
 
 namespace TigerTix.Api.Data.Models; 
 
 public class Show {
 
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public ulong Id { get; set; }
     
     public ulong VenueId { get; set; }
@@ -18,9 +21,9 @@ public class Show {
     
     public LocalDateTime End { get; set; }
 
-    public string ImageHero { get; set; } = null!;
+    public string? ImageHero { get; set; }
 
-    public string ImageThumbnail { get; set; } = null!;
+    public string? ImageThumbnail { get; set; }
     
     public double EntryPrice { get; set; }
 

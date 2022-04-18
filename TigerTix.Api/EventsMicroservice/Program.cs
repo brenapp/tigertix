@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddScoped<CreateEventService>();
+builder.Services.AddScoped<EventService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -20,7 +20,7 @@ builder.Host.ConfigureAppConfiguration((_, config) => {
     config.AddEnvironmentVariables();
 });
 
- var connStr = builder.Configuration["TigerTixConnectionString"];
+var connStr = builder.Configuration["TigerTixConnectionString"];
 // ****************************************************
 
 // **************** CONFIGURE DB CONTEXT **************
