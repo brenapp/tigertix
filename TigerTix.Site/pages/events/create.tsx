@@ -400,7 +400,7 @@ const EventCreateForm = () => {
                                         : "")
                                 }
                             >
-                                {event.title}
+                                {block.title}
                             </Button>
                         ))}
                     </nav>
