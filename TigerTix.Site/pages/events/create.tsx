@@ -84,7 +84,10 @@ const EventCreateForm = () => {
     // Persist editor state to the event object
     useEffect(() => {
         const raw = convertToRaw(editorState.getCurrentContent());
-        event.blocks[blockIndex].description = JSON.stringify(raw);
+        setBlock(blockIndex, {
+            description: JSON.stringify(raw),
+        })
+        sessionStorage.setItem("event", JSON.stringify(event));
     }, [editorState]);
 
     // Change content block state when you switch tabs
@@ -126,11 +129,6 @@ const EventCreateForm = () => {
             ],
         }));
     }
-
-    // Save the current event data to session storage
-    useEffect(() => {
-        sessionStorage.setItem("event", JSON.stringify(event));
-    }, [event]);
 
     const dateString = new Date(event.start).toLocaleString();
 
@@ -469,7 +467,7 @@ const EventCreateForm = () => {
         </>,
         <>
             <ContentBlocksForm />
-            {/* <ContentBlocksPreview /> */}
+            <ContentBlocksPreview />
         </>,
     ];
 
