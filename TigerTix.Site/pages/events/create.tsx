@@ -11,7 +11,7 @@ import {
     PlusIcon,
 } from "@heroicons/react/solid";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import {
@@ -87,7 +87,7 @@ const EventCreateForm = () => {
             description: JSON.stringify(raw),
         });
         sessionStorage.setItem("event", JSON.stringify(event));
-    });
+    }, [editorState]);
 
     // Change content block state when you switch tabs
     useEffect(() => {
@@ -100,7 +100,7 @@ const EventCreateForm = () => {
                     : ContentState.createFromText("")
             )
         );
-    }, [event.blocks, blockIndex]);
+    }, [blockIndex]);
 
     function setBlock(
         index: number,
