@@ -2,7 +2,6 @@ import type { NextPage } from "next";
 import { Header, Container, Button } from "../../components";
 import { Event, shim } from "../../services/events";
 import {
-    ArrowLeftIcon,
     ArrowRightIcon,
     BeakerIcon,
     CalendarIcon,
@@ -88,7 +87,7 @@ const EventCreateForm = () => {
             description: JSON.stringify(raw),
         });
         sessionStorage.setItem("event", JSON.stringify(event));
-    }, [editorState]);
+    });
 
     // Change content block state when you switch tabs
     useEffect(() => {
@@ -101,7 +100,7 @@ const EventCreateForm = () => {
                     : ContentState.createFromText("")
             )
         );
-    }, [blockIndex]);
+    }, [event.blocks, blockIndex]);
 
     function setBlock(
         index: number,
